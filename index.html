@@ -621,26 +621,28 @@ const zhSay = t => speak(t, 'zh-TW');
 /* ---------- voice in (only where the browser allows the microphone) ---------- */
 const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
 let srOK = !!SR;
-let liveRec = null; // the recognizer that is listening right now
 // Listens for up to 10 seconds and resolves { text, err } (null when the microphone cannot be used at all).
 // Interim results are on because Safari on iPad often sends nothing when it only gives final results;
 // onText shows the words live, and listening stops early once every word in target was heard.
+// Safari on iPad does best with one recognizer that is reused; a fresh one after the first sentence often ends at once with nothing heard
+let liveRec = null, recBusy = false;
 function listen(target, onText) {
   return new Promise(res => {
     if (!srOK) return res(null);
-    // a session left over from the last sentence can keep the microphone busy, so close it first
-    if (liveRec) { try { liveRec.abort(); } catch (e) {} liveRec = null; }
-    let r; try { r = new SR(); } catch (e) { srOK = false; return res(null); }
-    liveRec = r;
+    if (!liveRec) { try { liveRec = new SR(); } catch (e) { srOK = false; return res(null); } }
+    const r = liveRec;
+    if (recBusy) { try { r.abort(); } catch (e) {} }
     r.lang = 'en-US'; r.interimResults = true; r.continuous = true; r.maxAlternatives = 3;
-    let finals = '', interim = '', err = '', settled = false, quiet = null, longest = null;
+    let finals = '', interim = '', err = '', settled = false, quiet = null, longest = null, retries = 0;
+    const began = Date.now();
     const text = () => (finals + ' ' + interim).replace(/\s+/g, ' ').trim();
     const finish = () => {
       if (settled) return; settled = true;
       clearTimeout(quiet); clearTimeout(longest);
-      try { r.abort(); } catch (e) {}
-      if (liveRec === r) liveRec = null;
-      res(srOK ? { text: text(), err } : null);
+      const cur = liveRec; cur.onresult = cur.onerror = cur.onend = null;
+      try { cur.stop(); } catch (e) {}
+      recBusy = false;
+      res(srOK ? { text: text(), err, n: retries } : null);
     };
     r.onresult = e => {
       interim = '';
@@ -656,14 +658,31 @@ function listen(target, onText) {
     };
     r.onerror = e => {
       err = e.error;
-      if (err === 'not-allowed' || err === 'service-not-allowed' || err === 'audio-capture') srOK = false;
+      if (err === 'not-allowed' || err === 'service-not-allowed' || err === 'audio-capture') { srOK = false; finish(); }
+      // "no-speech" or "aborted" before she spoke: onend below opens the microphone again
+    };
+    r.onend = () => {
+      // the iPad sometimes closes the microphone before she has said anything: open it again a few times
+      if (!text() && srOK && retries < 4 && Date.now() - began < 9000) {
+        retries++; err = '';
+        setTimeout(() => { if (!settled) try { liveRec.start(); } catch (e) { err = 'restart'; finish(); } }, 150);
+        return;
+      }
       finish();
     };
-    r.onend = finish;
     longest = setTimeout(finish, 10000);
     try { speechSynthesis.cancel(); } catch (e) {}
     // start right inside the tap: Safari on iPad only opens the microphone while it still counts as her tap
-    try { r.start(); } catch (e) { err = 'start'; finish(); }
+    try { r.start(); recBusy = true; } catch (e) {
+      // the last session may still be closing: make a new recognizer and try once more
+      try { liveRec = new SR(); copyAndStart(); } catch (e2) { err = 'start'; finish(); }
+    }
+    function copyAndStart() {
+      const n = liveRec;
+      n.lang = r.lang; n.interimResults = true; n.continuous = true; n.maxAlternatives = 3;
+      n.onresult = r.onresult; n.onerror = r.onerror; n.onend = r.onend; r.onresult = r.onerror = r.onend = null;
+      n.start(); recBusy = true;
+    }
   });
 }
 const esc = s => String(s).replace(/[&<>"]/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[ch]);
@@ -1166,7 +1185,7 @@ function speakPanel(target, opts = {}) {
         if (!heard.text) {
           // the small code after the message tells the parent (and us) why nothing came back
           render(({ network: '網路不太穩，再按 🎤 試一次', 'no-speech': '沒有聽到聲音。按 🎤 之後，等按鈕在跳再開始說' }[heard.err] || '沒有聽到聲音。靠近一點，按 🎤 再說一次') +
-            `<br><small style="opacity:.6">（${esc(heard.err || 'no-result')}）</small>`);
+            `<br><small style="opacity:.6">（${esc(heard.err || 'no-result')}·${heard.n || 0}）</small>`);
           return;
         }
         const { hit, states } = check(heard.text);
