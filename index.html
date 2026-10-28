@@ -1338,15 +1338,16 @@ function speakPanel(target, opts = {}) {
   // target: array of English words that must all be said, e.g. ['I','am','sleepy']
   return new Promise(resolve => {
     const box = $('#speak');
-    let tries = 0;
+    let tries = 0, micFailed = false, tapped = false;
     const sentence = target.join(' ') + '.';
     const render = (msg = '') => {
       box.innerHTML = srOK
         ? `<div class="row">
              <button class="mic" id="mic" aria-label="speak">🎤</button>
+             <button class="btn mint big" id="saidit"><span class="zh">我說完了</span> ✋</button>
              ${opts.hideModel ? '' : spk(sentence)}
            </div>
-           <div class="msg zh" id="msg">${msg || '按麥克風，說出整句話'}</div>
+           <div class="msg zh" id="msg">${msg || '按 🎤 說出整句話，說完按「我說完了」'}</div>
            ${tries >= 2 ? `<button class="btn soft" id="pass"><span class="zh">我說好了</span> ✓</button>` : ''}`
         : S.check === 'dictation'
         ? `<div class="msg zh" id="msg">${msg || '點粉紅框，再按鍵盤上的 🎤，說出整句話'}</div>
@@ -1385,13 +1386,18 @@ function speakPanel(target, opts = {}) {
         dict.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); check(true); } });
       }
       const mic = $('#mic');
+      const saidit = $('#saidit');
+      if (saidit) saidit.addEventListener('click', () => {
+        if (mic.classList.contains('listening')) { tapped = true; saidit.disabled = true; stopListening(); return; }
+        // the microphone heard nothing last time: don't keep her stuck on a bad microphone
+        if (micFailed) { resolve(true); return; }
+        $('#msg').textContent = '先按 🎤，再說整句話';
+      });
       if (mic) mic.addEventListener('click', async () => {
-        if (mic.classList.contains('listening')) { stopListening(); return; }
+        if (mic.classList.contains('listening')) { tapped = true; stopListening(); return; }
         mic.classList.add('listening'); $('#msg').textContent = '我在聽…說完整句話，按「我說完了」';
-        const done = document.createElement('button');
-        done.className = 'btn mint big'; done.id = 'saidit'; done.innerHTML = '<span class="zh">我說完了</span> ✋';
-        done.addEventListener('click', () => { done.disabled = true; stopListening(); });
-        box.appendChild(done);
+        tapped = false;
+        const began = Date.now();
         const offset = opts.offset || 0;
         const check = said => {
           const hit = heardWords(said, target);
@@ -1406,11 +1412,15 @@ function speakPanel(target, opts = {}) {
         if (heard === null) { render(srOK ? '' : '麥克風沒有打開。請到 iPad「設定 → Safari → 麥克風」選「允許」，或請家長幫忙按「我說好了」'); return; }
         tries++;
         if (!heard.text) {
+          // she spoke for a while and tapped "I'm done" but nothing came back: the microphone failed, not her
+          if (tapped && Date.now() - began >= 2000) { toast('麥克風沒收到聲音，這關先過囉'); resolve(true); return; }
+          micFailed = true;
           // the small code after the message tells the parent (and us) why nothing came back
-          render(({ network: '網路不太穩，再按 🎤 試一次', 'no-speech': '沒有聽到聲音。按 🎤 之後，等按鈕在跳再開始說，說完再按「我說完了」' }[heard.err] || '沒有聽到聲音。靠近一點，按 🎤 再說一次') +
+          render('沒有聽到聲音。可以按 🎤 再說一次，或按「我說完了」繼續' +
             `<br><small style="opacity:.6">（${esc(heard.err || 'no-result')}·${heard.n || 0}）</small>`);
           return;
         }
+        micFailed = false;
         const { hit, states } = check(heard.text);
         setCars(states.map(s => s || 'need'));
         if (hit.every(Boolean)) { resolve(true); return; }
