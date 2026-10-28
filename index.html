@@ -655,8 +655,8 @@ function listen(target, onText) {
     r.onend = finish;
     longest = setTimeout(finish, 10000);
     try { speechSynthesis.cancel(); } catch (e) {}
-    // give the speaker a moment to go quiet before the microphone opens
-    setTimeout(() => { try { r.start(); } catch (e) { err = 'start'; finish(); } }, 350);
+    // start right inside the tap: Safari on iPad only opens the microphone while it still counts as her tap
+    try { r.start(); } catch (e) { err = 'start'; finish(); }
   });
 }
 const esc = s => String(s).replace(/[&<>"]/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[ch]);
@@ -1144,7 +1144,9 @@ function speakPanel(target, opts = {}) {
         if (heard === null) { render(srOK ? '' : '麥克風沒有打開。請到 iPad「設定 → Safari → 麥克風」選「允許」，或請家長幫忙按「我說好了」'); return; }
         tries++;
         if (!heard.text) {
-          render({ network: '網路不太穩，再按 🎤 試一次', 'no-speech': '沒有聽到聲音。按 🎤 之後，等按鈕在跳再開始說' }[heard.err] || '沒有聽到聲音。靠近一點，按 🎤 再說一次');
+          // the small code after the message tells the parent (and us) why nothing came back
+          render(({ network: '網路不太穩，再按 🎤 試一次', 'no-speech': '沒有聽到聲音。按 🎤 之後，等按鈕在跳再開始說' }[heard.err] || '沒有聽到聲音。靠近一點，按 🎤 再說一次') +
+            `<br><small style="opacity:.6">（${esc(heard.err || 'no-result')}）</small>`);
           return;
         }
         const { hit, states } = check(heard.text);
