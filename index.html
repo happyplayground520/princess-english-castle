@@ -434,6 +434,12 @@ const LOOK = {
     { id: 'wedding', zh: '白色婚紗',     main: '#FFFFFF', light: '#FFF0F7', accent: '#F4C24D', deco: 'sparkle', dk: '#E2B9CF', shape: 'gown', sleeve: 'flowy', need: 200 },
     { id: 'rosegown', zh: '粉紅大蓬裙',  main: '#F79CC4', light: '#FFE3F0', accent: '#FFFFFF', deco: 'bow',     shape: 'gown', sleeve: 'ruffle', need: 150 },
     { id: 'skygown', zh: '天空藍大蓬裙', main: '#9FD3F5', light: '#E8F6FF', accent: '#FFD45E', deco: 'stars',   shape: 'gown', sleeve: 'puff', need: 175 },
+    { id: 'mermaid',   zh: '美人魚尾巴',   main: '#4FC3C9', light: '#BFF3EE', accent: '#B79AF0', deco: 'shell',   shape: 'mermaid', sleeve: 'bare', need: 120 },
+    { id: 'unicorn',   zh: '獨角獸夢幻禮服', main: '#EBDDFF', light: '#FFE3F3', accent: '#FFD45E', deco: 'stars', dk: '#B79AE0', shape: 'gown', sleeve: 'puff', rainbowHem: true, need: 130 },
+    { id: 'newyear',   zh: '新年紅色禮服', main: '#E23B3B', light: '#FFE0A3', accent: '#F4C24D', deco: 'plum',    shape: 'aline', sleeve: 'puff', need: 60 },
+    { id: 'moonfest',  zh: '中秋月光禮服', main: '#34408A', light: '#FFF3C4', accent: '#FFE07A', deco: 'moon',    need: 90 },
+    { id: 'halloween', zh: '萬聖節南瓜禮服', main: '#FF8A2A', light: '#4A3466', accent: '#4A3466', deco: 'bat',   sleeve: 'ruffle', need: 70 },
+    { id: 'christmas', zh: '聖誕節紅絨禮服', main: '#D7263D', light: '#FFFFFF', accent: '#2E9E5B', deco: 'holly', sleeve: 'long', need: 100 },
   ],
   hair: [
     { id: 'long',  zh: '柔順直髮', ic: '💇‍♀️', need: 0 },
@@ -467,6 +473,12 @@ const LOOK = {
     { id: 'veil',      zh: '新娘頭紗',     ic: '👰', need: 180 },
     { id: 'tallcrown', zh: '超高寶石后冠', ic: '💎', need: 200 },
     { id: 'rosecrown', zh: '玫瑰花冠彩帶', ic: '🌹', need: 140 },
+    { id: 'unicorn',   zh: '獨角獸角',     ic: '🦄', need: 90 },
+    { id: 'starfish',  zh: '美人魚海星',   ic: '⭐', need: 60 },
+    { id: 'nyflower',  zh: '新年紅花流蘇', ic: '🧧', need: 35 },
+    { id: 'bunny',     zh: '中秋月兔耳朵', ic: '🐰', need: 55 },
+    { id: 'witch',     zh: '萬聖節巫婆帽', ic: '🎃', need: 75 },
+    { id: 'antlers',   zh: '聖誕麋鹿角',   ic: '🦌', need: 65 },
   ],
   earring: [
     { id: 'none',    zh: '不戴',     ic: '⭕', need: 0 },
@@ -477,6 +489,12 @@ const LOOK = {
     { id: 'hoop',       zh: '金色大圈圈',   ic: '⭕', need: 50 },
     { id: 'bigheart',   zh: '愛心珍珠垂墜', ic: '💖', need: 100 },
     { id: 'chandelier', zh: '水晶吊燈耳環', ic: '💎', need: 150 },
+    { id: 'shell',      zh: '美人魚貝殼',   ic: '🐚', need: 30 },
+    { id: 'rainbow',    zh: '獨角獸彩虹',   ic: '🌈', need: 60 },
+    { id: 'coin',       zh: '新年金幣',     ic: '🧧', need: 35 },
+    { id: 'moon',       zh: '中秋月亮',     ic: '🌙', need: 45 },
+    { id: 'pumpkin',    zh: '萬聖節南瓜',   ic: '🎃', need: 40 },
+    { id: 'bell',       zh: '聖誕鈴鐺',     ic: '🔔', need: 50 },
   ],
   necklace: [
     { id: 'none',  zh: '不戴',     ic: '⭕', need: 0 },
@@ -486,6 +504,12 @@ const LOOK = {
     { id: 'choker',  zh: '蝴蝶結頸鍊',   ic: '🎀', need: 40 },
     { id: 'layered', zh: '三層珍珠項鍊', ic: '📿', need: 110 },
     { id: 'royal',   zh: '皇家寶石項鍊', ic: '👑', need: 170 },
+    { id: 'shells',  zh: '美人魚貝殼項鍊', ic: '🐚', need: 35 },
+    { id: 'rainbow', zh: '獨角獸彩虹項鍊', ic: '🌈', need: 70 },
+    { id: 'knot',    zh: '新年中國結',     ic: '🧧', need: 30 },
+    { id: 'moon',    zh: '中秋月亮項鍊',   ic: '🌙', need: 50 },
+    { id: 'candy',   zh: '萬聖節糖果項鍊', ic: '🍬', need: 40 },
+    { id: 'jingle',  zh: '聖誕鈴鐺項鍊',   ic: '🔔', need: 55 },
   ],
   nails: [
     { id: 'natural', zh: '自然色',   c: '#FFD2D2', need: 0 },
@@ -842,7 +866,16 @@ function princess(feel = 'good', cls = '', look = S.look) {
   const bowAt = (x, y, s, col = d.accent) => `<path d="M${x} ${y} C${x - 14 * s} ${y - 14 * s} ${x - 22 * s} ${y} ${x - 13 * s} ${y + 8 * s} C${x - 8 * s} ${y + 11 * s} ${x - 3 * s} ${y + 4 * s} ${x} ${y} Z M${x} ${y} C${x + 14 * s} ${y - 14 * s} ${x + 22 * s} ${y} ${x + 13 * s} ${y + 8 * s} C${x + 8 * s} ${y + 11 * s} ${x + 3 * s} ${y + 4 * s} ${x} ${y} Z" fill="${col}" stroke="#fff" stroke-width="1.3"/><circle cx="${x}" cy="${y}" r="${3.4 * s}" fill="#fff"/>`;
   const sparkles = pts => pts.map(([x, y, r]) => `<path d="${starPath(x, y, r, .3)}" fill="#fff" opacity=".9"/>`).join('');
   const skirtSpots = [[74, 258], [166, 258], [48, 300], [192, 300], [30, 342], [210, 342], [66, 336], [174, 336]];
+  const plum = (x, y, s = 1) => [0, 72, 144, 216, 288].map(t => `<circle cx="${(x + 4.2 * s * Math.cos(t * Math.PI / 180)).toFixed(1)}" cy="${(y + 4.2 * s * Math.sin(t * Math.PI / 180)).toFixed(1)}" r="${3.6 * s}" fill="${d.accent}" stroke="#fff" stroke-width=".6"/>`).join('') + `<circle cx="${x}" cy="${y}" r="${2.2 * s}" fill="#fff"/>`;
+  const moonAt = (x, y, s = 1) => `<path d="M${x + 4 * s} ${y - 9 * s} A9.5 9.5 0 1 0 ${x + 4 * s} ${y + 9 * s} A7 7 0 1 1 ${x + 4 * s} ${y - 9 * s} Z" fill="${d.accent}" stroke="#fff" stroke-width=".8"/>`;
+  const batAt = (x, y, s = 1) => `<g transform="translate(${x} ${y}) scale(${s})"><path d="M-14 -2 Q-8 -9 -4 -3 Q-2 -8 0 -4 Q2 -8 4 -3 Q8 -9 14 -2 Q9 -1 8 3 Q4 0 0 4 Q-4 0 -8 3 Q-9 -1 -14 -2 Z" fill="${d.accent}"/><circle cx="-1.6" cy="-2" r=".9" fill="#FFD45E"/><circle cx="1.6" cy="-2" r=".9" fill="#FFD45E"/></g>`;
+  const hollyAt = (x, y, s = 1) => `<g transform="translate(${x} ${y}) scale(${s})"><ellipse cx="-6" cy="0" rx="7" ry="3.6" transform="rotate(-20 -6 0)" fill="${d.accent}" stroke="#fff" stroke-width=".7"/><ellipse cx="6" cy="0" rx="7" ry="3.6" transform="rotate(20 6 0)" fill="${d.accent}" stroke="#fff" stroke-width=".7"/><circle cx="-2" cy="-3" r="2.6" fill="#FF4F6A" stroke="#fff" stroke-width=".8"/><circle cx="2.6" cy="-2.4" r="2.6" fill="#FF4F6A" stroke="#fff" stroke-width=".8"/><circle cx="0" cy="1.6" r="2.6" fill="#FF4F6A" stroke="#fff" stroke-width=".8"/></g>`;
+  const flake = (x, y, r) => `<path d="M${x - r} ${y} H${x + r} M${x - r / 2} ${y - r * .87} L${x + r / 2} ${y + r * .87} M${x + r / 2} ${y - r * .87} L${x - r / 2} ${y + r * .87}" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/>`;
   const deco = {
+    plum: skirtSpots.map(([x, y], i) => plum(x, y, i % 2 ? .9 : 1.15)).join(''),
+    moon: skirtSpots.map(([x, y], i) => i % 3 === 0 ? moonAt(x, y, 1.1) : `<path d="${starPath(x, y, i % 2 ? 4 : 5.5)}" fill="${d.accent}"/>`).join('') + `<g opacity=".95"><circle cx="120" cy="300" r="13" fill="#FFF3C4" stroke="#FFE07A" stroke-width="2"/><ellipse cx="116" cy="304" rx="5" ry="4" fill="#fff"/><path d="M113 300 q-2 -8 1 -9 q2 3 1 9 M117 300 q0 -8 3 -8 q1 4 -1 8" fill="#fff"/></g>`,
+    bat: skirtSpots.map(([x, y], i) => i % 2 ? batAt(x, y, 1.1) : `<path d="${starPath(x, y, 5)}" fill="#FFD45E"/>`).join(''),
+    holly: skirtSpots.map(([x, y], i) => i % 2 ? hollyAt(x, y, 1.1) : flake(x, y, 6)).join(''),
     bow: [[76, 264], [164, 264], [44, 326], [196, 326]].map(([x, y]) => bowAt(x, y, .75)).join(''),
     shell: [[76, 266], [164, 266], [42, 330], [198, 330]].map(([x, y]) => `<path d="M${x - 9} ${y + 4} Q${x} ${y - 14} ${x + 9} ${y + 4} Z" fill="${d.light}" stroke="${d.accent}" stroke-width="1.5"/><path d="M${x} ${y + 3} L${x} ${y - 6} M${x - 4} ${y + 3} L${x - 2} ${y - 5} M${x + 4} ${y + 3} L${x + 2} ${y - 5}" stroke="${d.accent}" stroke-width="1"/>`).join(''),
     petal: [[34, 344, -34], [52, 308, -26], [72, 276, -16], [206, 344, 34], [188, 308, 26], [168, 276, 16]].map(([x, y, r]) => `<path d="M${x} ${y - 13} C${x + 9} ${y - 6} ${x + 7} ${y + 8} ${x} ${y + 12} C${x - 7} ${y + 8} ${x - 9} ${y - 6} ${x} ${y - 13} Z" transform="rotate(${r} ${x} ${y})" fill="${d.light}" stroke="${d.accent}" stroke-width="1.3"/><path d="M${x} ${y - 8} L${x} ${y + 8}" transform="rotate(${r} ${x} ${y})" stroke="${d.accent}" stroke-width=".9" opacity=".6"/>`).join(''),
@@ -857,7 +890,7 @@ function princess(feel = 'good', cls = '', look = S.look) {
   const shp = d.shape || 'ball';
   const feet = `${shoeArt(107, -1, L.shoes, d.accent)}${shoeArt(133, 1, L.shoes, d.accent)}`;
   // slimmer skirts reuse the same decorations, drawn smaller toward the waist
-  const decoAt = k => `<g transform="translate(120 226) scale(${k}) translate(-120 -226)">${deco}</g>`;
+  const decoAt = (k, ky = k) => `<g transform="translate(120 226) scale(${k} ${ky}) translate(-120 -226)">${deco}</g>`;
   const pjDots = pts => pts.map(([x, y], i) => i % 2 ? `<circle cx="${x}" cy="${y}" r="2.2" fill="#fff"/>` : `<path d="${starPath(x, y, 4.5)}" fill="${d.accent}"/>`).join('');
   const skirt = {
     ball: `${feet}
@@ -876,7 +909,7 @@ function princess(feel = 'good', cls = '', look = S.look) {
     <path d="M102 226 C92 262 66 320 52 368${scallops(qPts(9, [52, 368], [120, 390], [188, 368]), 6)} C174 320 148 262 138 226 Q120 234 102 226 Z" fill="${main}" stroke="${dk}" stroke-width="1.5" stroke-linejoin="round"/>
     <path d="M96 244 C82 280 70 320 64 356 M144 244 C158 280 170 320 176 356" stroke="#fff" stroke-width="4" opacity=".22" fill="none" stroke-linecap="round"/>
     <path d="M110 240 C104 290 94 330 88 376 M130 240 C136 290 146 330 152 376 M120 242 L120 384" stroke="${dk}" stroke-width="1.2" opacity=".3" fill="none"/>
-    ${decoAt(.62)}`,
+    ${decoAt(.56, 1.08)}`,
     // floor length with a train sweeping out behind her
     train: `${feet}
     <path d="M134 246 C176 296 216 350 236 400 C212 412 168 414 120 406 Z" fill="${main}" stroke="${dk}" stroke-width="1.4" stroke-linejoin="round"/>
@@ -886,7 +919,7 @@ function princess(feel = 'good', cls = '', look = S.look) {
     <path d="M110 240 C104 290 92 340 86 400 M130 240 C136 290 148 340 154 400 M120 242 L120 408" stroke="${dk}" stroke-width="1.2" opacity=".3" fill="none"/>
     ${decoAt(.72)}`,
     gown: `
-    <path d="M100 226 C40 232 4 302 2 394${scallops(qPts(14, [2, 394], [120, 424], [238, 394]), 6)} C236 302 200 232 140 226 Q120 236 100 226 Z" fill="${d.light}" stroke="${dk}" stroke-width="1.2" stroke-linejoin="round"/>
+    <path d="M100 226 C40 232 4 302 2 394${scallops(qPts(14, [2, 394], [120, 424], [238, 394]), 6)} C236 302 200 232 140 226 Q120 236 100 226 Z" fill="${d.rainbowHem ? `url(#${id}rb)` : d.light}" stroke="${dk}" stroke-width="1.2" stroke-linejoin="round"/>
     <path d="M100 226 C46 232 12 298 8 384${scallops(qPts(12, [8, 384], [120, 414], [232, 384]), 7)} C228 298 194 232 140 226 Q120 236 100 226 Z" fill="${main}" stroke="${dk}" stroke-width="1.5" stroke-linejoin="round"/>
     <path d="M80 244 C46 272 26 320 20 376 M160 244 C194 272 214 320 220 376" stroke="#fff" stroke-width="6" opacity=".25" fill="none" stroke-linecap="round"/>
     <path d="M96 238 C70 280 50 330 42 390 M144 238 C170 280 190 330 198 390 M108 240 C98 290 88 340 82 398 M132 240 C142 290 152 340 158 398 M120 242 L120 404" stroke="${dk}" stroke-width="1.3" opacity=".3" fill="none" stroke-linecap="round"/>
@@ -896,6 +929,15 @@ function princess(feel = 'good', cls = '', look = S.look) {
     ${alongQ(7, [22, 312], [120, 344], [218, 312], (x, y) => `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="3.6" fill="#fff" stroke="${dk}" stroke-width=".8"/><path d="${heartPath(x, y + 9, .35)}" fill="${d.accent === '#FFFFFF' ? '#F27DB5' : d.accent}"/>`)}
     <path d="M10 378${scallops(qPts(16, [10, 378], [120, 408], [230, 378]), 4)}" stroke="#fff" stroke-width="2.4" fill="none" opacity=".85"/>
     ${sparkles([[56, 270, 3.5], [184, 270, 3.5], [36, 360, 3], [204, 360, 3], [120, 380, 3]])}`,
+    mermaid: `
+    <path d="M116 366 C96 380 70 396 52 412 C78 414 104 406 120 392 C136 406 162 414 188 412 C170 396 144 380 124 366 Z" fill="${d.light}" stroke="${dk}" stroke-width="1.4" stroke-linejoin="round"/>
+    <path d="M116 376 C100 388 84 398 70 408 M120 384 L120 400 M124 376 C140 388 156 398 170 408 M110 380 C96 394 86 402 80 410 M130 380 C144 394 154 402 160 410" stroke="${dk}" stroke-width="1" opacity=".45" fill="none"/>
+    <path d="M100 226 C90 252 86 276 90 302 C94 330 106 352 114 372 L126 372 C134 352 146 330 150 302 C154 276 150 252 140 226 Q120 234 100 226 Z" fill="${main}" stroke="${dk}" stroke-width="1.5" stroke-linejoin="round"/>
+    ${Array.from({ length: 11 }, (_, r) => { const y = 244 + r * 11.5, hw = y <= 302 ? 16 + 12 * (y - 226) / 76 : 28 - 22 * (y - 302) / 70, n = Math.max(1, Math.floor(hw / 4.5)); return Array.from({ length: n }, (_, k) => { const x = 120 - hw + (k + .5 + (r % 2) * .5) * (2 * hw / (n + .5)); return `<path d="M${(x - 4.5).toFixed(1)} ${y.toFixed(1)} Q${x.toFixed(1)} ${(y + 6).toFixed(1)} ${(x + 4.5).toFixed(1)} ${y.toFixed(1)}" stroke="${d.light}" stroke-width="1.5" fill="none" opacity=".85"/>`; }).join(''); }).join('')}
+    <path d="M96 248 C92 276 94 304 104 334" stroke="#fff" stroke-width="5" opacity=".3" fill="none" stroke-linecap="round"/>
+    <path d="M100 230 Q120 240 140 230" stroke="${d.light}" stroke-width="6" fill="none" stroke-linecap="round"/>
+    ${alongQ(6, [102, 233], [120, 242], [138, 233], (x, y) => `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="2.3" fill="#fff" stroke="#E2D2EC" stroke-width=".6"/>`)}
+    ${sparkles([[100, 290, 3], [140, 320, 3], [116, 350, 2.5], [70, 404, 3], [172, 404, 3]])}`,
     pajama: `${feet}
     <path d="M100 248 L95 378 Q107 382 119 378 L120 262 L121 378 Q133 382 145 378 L140 248 Z" fill="${main}" stroke="${dk}" stroke-width="1.4" stroke-linejoin="round"/>
     <path d="M95.5 371 Q107 375 118.5 371 M121.5 371 Q133 375 144.5 371" stroke="${d.light}" stroke-width="5" fill="none"/>
@@ -905,7 +947,8 @@ function princess(feel = 'good', cls = '', look = S.look) {
     bow: bowAt(120, 186, .55), shell: `<path d="M114 190 Q120 178 126 190 Z" fill="${d.light}" stroke="${d.accent}" stroke-width="1.2"/>`,
     petal: `<circle cx="120" cy="186" r="3" fill="${d.accent}"/>` + [0, 72, 144, 216, 288].map(a => `<ellipse cx="120" cy="180.5" rx="2.6" ry="4" transform="rotate(${a} 120 186)" fill="${d.light}" stroke="${d.accent}" stroke-width=".8"/>`).join(''),
     stars: `<path d="${starPath(120, 186, 5)}" fill="${d.accent}"/>`, bigbow: bowAt(120, 186, .6), sparkle: `<path d="${starPath(120, 186, 6, .3)}" fill="#fff"/>`,
-  }[d.deco];
+    plum: plum(120, 188, .7), moon: moonAt(120, 188, .7), bat: batAt(120, 188, .7), holly: hollyAt(120, 188, .75),
+  }[d.deco] || '';
   const upper = shp === 'pajama' ? `
     <path d="M112 146 L112 162 Q120 166 128 162 L128 146 Z" fill="${SKIN2}"/>
     <path d="M92 168 Q120 158 148 168 C152 200 156 236 158 264 Q120 272 82 264 C84 236 88 200 92 168 Z" fill="${main}" stroke="${dk}" stroke-width="1.4" stroke-linejoin="round"/>
@@ -924,7 +967,7 @@ function princess(feel = 'good', cls = '', look = S.look) {
   // each gown has its own sleeve: short puff, flowing chiffon, petals, long fitted, off-shoulder ruffle or long bell
   const sleeveType = d.sleeve || ({ bubble: 'puff', pearl: 'flowy', petal: 'petal', starry: 'long', ribbon: 'ruffle', rainbow: 'bell' })[d.id] || 'puff';
   // narrow skirts start closer to the waist, so the arms angle in further to tuck the hands behind them
-  const narrow = shp === 'aline' || shp === 'train';
+  const narrow = shp === 'aline' || shp === 'train' || shp === 'mermaid';
   const armPath = narrow ? 'M90 184 C85 206 90 230 100 254' : 'M90 184 C84 204 82 222 86 242';
   const skinArm = `<path d="${armPath}" stroke="${SKIN2}" stroke-width="10" fill="none" stroke-linecap="round"/><path d="${armPath}" stroke="${SKIN}" stroke-width="7.5" fill="none" stroke-linecap="round"/>`;
   const clothArm = (col, p = narrow ? 'M89 178 C84 204 90 230 100 254' : 'M89 178 C83 200 82 222 86 242') => `<path d="${p}" stroke="${dk}" stroke-width="12.5" fill="none" stroke-linecap="round"/><path d="${p}" stroke="${col}" stroke-width="10" fill="none" stroke-linecap="round"/>`;
@@ -945,6 +988,7 @@ function princess(feel = 'good', cls = '', look = S.look) {
     bell: { back: clothArm(d.light), front: `<path d="M90 204 C84 220 74 238 66 250 C78 260 96 254 100 242 C100 230 98 216 94 206 Z" fill="${d.light}" opacity=".9" stroke="${dk}" stroke-width="1.2"/>
       <path d="M88 222 C82 234 76 244 72 252 M95 226 C93 238 90 248 88 254" stroke="${dk}" stroke-width=".9" opacity=".3" fill="none"/>
       <path d="M78 174 C76 162 98 158 102 172 C104 182 96 186 88 186 C80 186 78 180 78 174 Z" fill="${main}" stroke="${dk}" stroke-width="1.3"/>` },
+    bare: { back: skinArm, front: `<path d="M84 176 Q92 168 102 174" stroke="${d.light}" stroke-width="5" fill="none" stroke-linecap="round"/>` },
     pj: { back: '', front: clothArm(main, 'M93 176 C83 200 82 226 90 248') +
       `<path d="M80 240 h20 v13 q0 6 -6 6 h-8 q-6 0 -6 -6 Z" fill="${d.light}" stroke="${dk}" stroke-width="1.2" stroke-linejoin="round"/><path d="${heartPath(90, 249, .45)}" fill="${d.accent}"/>` },
   }[sleeveType];
@@ -961,6 +1005,12 @@ function princess(feel = 'good', cls = '', look = S.look) {
     royal: `<path d="M104 161 Q120 184 136 161" stroke="#E7B43A" stroke-width="1.8" fill="none"/>` +
       alongQ(4, [107, 164], [120, 181], [133, 164], (x, y, i) => i === 2 ? '' : drop(x, y - 1, .55, ['#7FE0F0', '#9D6BE8', '', '#9D6BE8', '#7FE0F0'][i], '#fff')) +
       drop(120, 170, 1.05, '#E8365D', '#E7B43A') + `<circle cx="120" cy="184" r="2.2" fill="#fff" stroke="#E2D2EC"/>`,
+    shells: pearlsOn(...nk, 7, 1.7) + `<path d="M114 176 Q120 164 126 176 Z" fill="#FFE6F0" stroke="#F49AC1" stroke-width="1.2"/><path d="M120 175 L120 168 M117 175 L118 169 M123 175 L122 169" stroke="#F49AC1" stroke-width=".8"/>`,
+    rainbow: `<path d="M109 160 Q120 172 131 160" stroke="#E7B43A" stroke-width="1.1" fill="none"/>` + ['#FF8DBA', '#FFD45E', '#7FD6E0', '#B79AF0'].map((c, i) => `<path d="M${112 + i * 1.6} 176 A${8 - i * 1.6} ${8 - i * 1.6} 0 0 1 ${128 - i * 1.6} 176" stroke="${c}" stroke-width="1.7" fill="none"/>`).join('') + `<circle cx="111.5" cy="177" r="2.4" fill="#fff"/><circle cx="128.5" cy="177" r="2.4" fill="#fff"/>`,
+    knot: `<path d="M109 160 Q120 172 131 160" stroke="#E8365D" stroke-width="1.8" fill="none"/><path d="M120 164 L126 170 L120 176 L114 170 Z" fill="#E8365D" stroke="#F4C24D" stroke-width="1"/><path d="M117 170 H123 M120 167 V173" stroke="#F4C24D" stroke-width=".8"/><path d="M118 177 L117 188 M120 177 L120 189 M122 177 L123 188" stroke="#F4C24D" stroke-width="1.2" stroke-linecap="round"/>`,
+    moon: `<path d="M109 160 Q120 172 131 160" stroke="#E7B43A" stroke-width="1.1" fill="none"/><path d="M123 164 A7 7 0 1 0 123 178 A5 5 0 1 1 123 164 Z" fill="#FFE07A" stroke="#E0A800" stroke-width=".8"/><path d="${starPath(127, 172, 2.4)}" fill="#FFE07A"/>`,
+    candy: alongQ(7, [107, 160], [120, 178], [133, 160], (x, y, i) => `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="2.2" fill="${['#FF8A2A', '#9D6BE8', '#7FE0A8', '#FFD45E'][i % 4]}" stroke="#fff" stroke-width=".5"/>`) + `<path d="M114 177 l3 -2 v4 Z M126 177 l-3 -2 v4 Z" fill="#9D6BE8"/><ellipse cx="120" cy="177" rx="3.6" ry="2.6" fill="#FF8A2A" stroke="#fff" stroke-width=".6"/>`,
+    jingle: `<path d="M109 160 Q120 172 131 160" stroke="#E8365D" stroke-width="2.2" fill="none"/><path d="M114.5 177 Q114.5 167 120 167 Q125.5 167 125.5 177 Z" fill="#F4C24D" stroke="#C08A12" stroke-width="1"/><circle cx="120" cy="178" r="1.6" fill="#C08A12"/><ellipse cx="116" cy="165" rx="4" ry="2" transform="rotate(-20 116 165)" fill="#2E9E5B"/><ellipse cx="124" cy="165" rx="4" ry="2" transform="rotate(20 124 165)" fill="#2E9E5B"/><circle cx="120" cy="165" r="1.8" fill="#FF4F6A"/>`,
   }[L.necklace.id];
 
   /* face (head space): round, bright eyes that are smaller than the old anime ones */
@@ -1016,6 +1066,12 @@ function princess(feel = 'good', cls = '', look = S.look) {
     bigheart: `<path d="M${x} 144 L${x} 150" stroke="#E7B43A" stroke-width="1.5"/><circle cx="${x}" cy="151" r="2.4" fill="#fff" stroke="#E2D2EC"/><path d="${heartPath(x, 160, 1.15)}" fill="#FF4F8B" stroke="#fff" stroke-width="1"/><circle cx="${x}" cy="173" r="2.2" fill="#fff" stroke="#E2D2EC"/>`,
     chandelier: `<path d="M${x} 144 L${x} 150 M${x} 150 L${x - 6} 158 M${x} 150 L${x + 6} 158 M${x} 150 L${x} 166" stroke="#C9C9E6" stroke-width="1.2"/>` +
       drop(x - 6, 158, .8, '#9EE7F5', '#3FA9C9') + drop(x + 6, 158, .8, '#9EE7F5', '#3FA9C9') + drop(x, 166, 1.1, '#C7B5FF', '#7A5CD0') + `<circle cx="${x}" cy="150" r="2" fill="#fff"/>`,
+    shell: `<path d="M${x} 144 L${x} 150" stroke="#E7B43A" stroke-width="1.6"/><path d="M${x - 8} 162 Q${x} 144 ${x + 8} 162 Z" fill="#FFE6F0" stroke="#F49AC1" stroke-width="1.4"/><path d="M${x} 161 L${x} 152 M${x - 4} 161 L${x - 2} 153 M${x + 4} 161 L${x + 2} 153" stroke="#F49AC1" stroke-width=".9"/><circle cx="${x}" cy="164.5" r="2.6" fill="#fff" stroke="#E2D2EC"/>`,
+    rainbow: `<path d="M${x} 144 L${x} 151" stroke="#E7B43A" stroke-width="1.6"/>` + ['#FF8DBA', '#FFD45E', '#7FD6E0', '#B79AF0'].map((c, i) => `<path d="M${x - 9 + i * 2} 162 A${9 - i * 2} ${9 - i * 2} 0 0 1 ${x + 9 - i * 2} 162" stroke="${c}" stroke-width="2.2" fill="none"/>`).join('') + `<circle cx="${x - 8}" cy="163" r="3" fill="#fff"/><circle cx="${x + 8}" cy="163" r="3" fill="#fff"/>`,
+    coin: `<path d="M${x} 144 L${x} 149" stroke="#E8365D" stroke-width="1.6"/><circle cx="${x}" cy="157" r="8" fill="#F7D35A" stroke="#C08A12" stroke-width="1.6"/><rect x="${x - 2.6}" y="154.4" width="5.2" height="5.2" fill="#fff" stroke="#C08A12" stroke-width="1"/><path d="M${x - 2} 165 L${x - 3} 178 M${x} 165 L${x} 179 M${x + 2} 165 L${x + 3} 178" stroke="#E8365D" stroke-width="1.6" stroke-linecap="round"/>`,
+    moon: `<path d="M${x} 144 L${x} 149" stroke="#E7B43A" stroke-width="1.6"/><path d="M${x + 4} 149 A10 10 0 1 0 ${x + 4} 169 A7.5 7.5 0 1 1 ${x + 4} 149 Z" fill="#FFE07A" stroke="#E0A800" stroke-width="1.2"/><path d="${starPath(x + 6, 166, 3.4)}" fill="#FFE07A" stroke="#E0A800" stroke-width=".6"/>`,
+    pumpkin: `<path d="M${x} 144 L${x} 150" stroke="#E7B43A" stroke-width="1.6"/><path d="M${x} 151 q1 -4 4 -4" stroke="#2E9E5B" stroke-width="2" fill="none" stroke-linecap="round"/><ellipse cx="${x - 4}" cy="159" rx="5" ry="7" fill="#FF8A2A" stroke="#D9611A" stroke-width="1"/><ellipse cx="${x + 4}" cy="159" rx="5" ry="7" fill="#FF8A2A" stroke="#D9611A" stroke-width="1"/><ellipse cx="${x}" cy="159" rx="4.5" ry="7.5" fill="#FF9D45" stroke="#D9611A" stroke-width="1"/>`,
+    bell: `<path d="M${x} 144 L${x} 149" stroke="#E8365D" stroke-width="1.6"/>${bowAt(x, 150, .32, '#E8365D')}<path d="M${x - 8} 167 Q${x - 8} 152 ${x} 152 Q${x + 8} 152 ${x + 8} 167 Z" fill="#F7D35A" stroke="#C08A12" stroke-width="1.4"/><path d="M${x - 9} 167 H${x + 9}" stroke="#C08A12" stroke-width="2" stroke-linecap="round"/><circle cx="${x}" cy="169.5" r="2.4" fill="#C08A12"/><path d="M${x - 4} 156 Q${x - 5} 160 ${x - 5} 164" stroke="#FFF6C8" stroke-width="1.4" fill="none" stroke-linecap="round"/>`,
   }[L.earring.id]);
 
   /* front hair: side locks framing the face and a fringe of soft pointed locks */
@@ -1073,6 +1129,31 @@ function princess(feel = 'good', cls = '', look = S.look) {
       <path d="M104 30 L109 38 L104 47 L99 38 Z M136 30 L141 38 L136 47 L131 38 Z" fill="#3E8EDE" stroke="#fff" stroke-width="1.2"/>
       ${[[84, 34], [104, 14], [120, 0], [136, 14], [156, 34]].map(([x, y]) => `<circle cx="${x}" cy="${y + 2}" r="3.6" fill="#fff" stroke="#C9C9E6"/>`).join('')}
       ${[96, 108, 120, 132, 144].map(x => `<circle cx="${x}" cy="62" r="2.6" fill="#7FE0A8" stroke="#fff" stroke-width=".8"/>`).join('')}` + sparkles([[70, 22, 3.5], [172, 26, 4]]) + '</g>',
+    unicorn: `<path d="M88 60 L78 26 L104 50 Z" fill="#fff" stroke="#D9B8E8" stroke-width="1.6" stroke-linejoin="round"/><path d="M89 52 L83 34 L97 49 Z" fill="#FFC2DD"/>
+      <path d="M152 60 L162 26 L136 50 Z" fill="#fff" stroke="#D9B8E8" stroke-width="1.6" stroke-linejoin="round"/><path d="M151 52 L157 34 L143 49 Z" fill="#FFC2DD"/>
+      <path d="M111 56 L120 4 L129 56 Z" fill="#FFE07A" stroke="#E0A800" stroke-width="1.6" stroke-linejoin="round"/>
+      <path d="M112 48 L128 42 M114 36 L126 31 M116 24 L124 20 M118 13 L122 11" stroke="#E0A800" stroke-width="1.6" stroke-linecap="round"/>` +
+      bloom(102, 60, '#FFC2DD', 6) + bloom(138, 60, '#C7B5FF', 6) + bloom(120, 62, '#BDEBFF', 5) + sparkles([[96, 22, 3], [146, 18, 3.5], [168, 46, 2.5]]),
+    starfish: `<path d="${starPath(152, 64, 14, .48)}" fill="#FF9E7A" stroke="#E8673F" stroke-width="1.6" stroke-linejoin="round"/>` +
+      [[152, 56], [145, 62], [159, 62], [148, 70], [156, 70], [152, 64]].map(([x, y]) => `<circle cx="${x}" cy="${y}" r="1.3" fill="#FFE3D6"/>`).join('') +
+      `<path d="M164 84 Q172 70 180 84 Z" fill="#FFE6F0" stroke="#F49AC1" stroke-width="1.4"/><path d="M172 83 L172 75 M168 83 L170 76 M176 83 L174 76" stroke="#F49AC1" stroke-width=".9"/>` +
+      `<circle cx="136" cy="56" r="3.2" fill="#fff" stroke="#E2D2EC"/><circle cx="130" cy="52" r="2.6" fill="#fff" stroke="#E2D2EC"/><circle cx="168" cy="62" r="2.8" fill="#fff" stroke="#E2D2EC"/>` +
+      `<path d="${starPath(90, 60, 7, .48)}" fill="#FFD45E" stroke="#E0A800" stroke-width="1.2"/>`,
+    nyflower: [78, 162].map(x => `<path d="M${x - 2} 80 L${x - 4} 108 M${x} 80 L${x} 110 M${x + 2} 80 L${x + 4} 108" stroke="#F4C24D" stroke-width="2" stroke-linecap="round"/><rect x="${x - 3}" y="78" width="6" height="5" rx="1.5" fill="#E8365D"/>` + bloom(x, 70, '#E8365D', 10) + `<circle cx="${x}" cy="70" r="3.4" fill="#F4C24D"/>`).join('') +
+      `<circle cx="104" cy="54" r="5" fill="#F7D35A" stroke="#C08A12" stroke-width="1.2"/><rect x="102" y="52" width="4" height="4" fill="#fff" stroke="#C08A12" stroke-width=".7"/>`,
+    bunny: `<path d="M84 62 Q120 44 156 62" stroke="#F4C24D" stroke-width="4" fill="none" stroke-linecap="round"/>
+      <path d="M100 56 C86 30 90 4 100 2 C110 4 112 30 108 54 Z" fill="#fff" stroke="#E2D2EC" stroke-width="1.6"/><path d="M101 50 C93 30 95 12 100 10 C105 12 106 30 104 50 Z" fill="#FFC2DD"/>
+      <path d="M134 54 C134 28 146 6 156 10 C164 16 152 38 142 58 Z" fill="#fff" stroke="#E2D2EC" stroke-width="1.6"/><path d="M138 50 C140 32 147 18 153 18 C157 22 150 36 143 52 Z" fill="#FFC2DD"/>
+      <path d="M163 54 A12 12 0 1 0 163 78 A9 9 0 1 1 163 54 Z" fill="#FFE07A" stroke="#E0A800" stroke-width="1.4"/>`,
+    witch: `<ellipse cx="120" cy="60" rx="58" ry="11" fill="#5B3A8E" stroke="#3A2360" stroke-width="2"/>
+      <path d="M90 58 C98 42 106 22 116 8 C124 0 142 2 152 14 C142 12 134 16 130 26 C134 36 140 48 150 58 Z" fill="#6B48A8" stroke="#3A2360" stroke-width="2" stroke-linejoin="round"/>
+      <path d="M93 50 Q120 57 147 50 L149 58 Q120 65 91 58 Z" fill="#FF8A2A" stroke="#3A2360" stroke-width="1.2"/>
+      <rect x="114" y="51" width="12" height="10" rx="1.5" fill="none" stroke="#FFD45E" stroke-width="2.2"/>
+      <path d="${starPath(122, 30, 4.5)}" fill="#FFD45E"/><path d="M134 40 A4 4 0 1 0 134 48 A3 3 0 1 1 134 40 Z" fill="#FFD45E"/>`,
+    antlers: [0, 1].map(m => `<g ${m ? 'transform="translate(240 0) scale(-1 1)"' : ''}><path d="M98 58 C92 42 86 30 82 14 M88 36 C80 34 74 28 72 20 M85 26 C90 20 92 14 92 6" stroke="#8A5232" stroke-width="7" stroke-linecap="round" fill="none"/><path d="M98 58 C92 42 86 30 82 14 M88 36 C80 34 74 28 72 20 M85 26 C90 20 92 14 92 6" stroke="#B57A4E" stroke-width="4" stroke-linecap="round" fill="none"/></g>`).join('') +
+      `<path d="M86 62 Q120 46 154 62" stroke="#E8365D" stroke-width="4" fill="none" stroke-linecap="round"/>` +
+      [[104, 56], [136, 56]].map(([x, y]) => `<ellipse cx="${x - 5}" cy="${y}" rx="6" ry="3" transform="rotate(-20 ${x - 5} ${y})" fill="#2E9E5B"/><ellipse cx="${x + 5}" cy="${y}" rx="6" ry="3" transform="rotate(20 ${x + 5} ${y})" fill="#2E9E5B"/><circle cx="${x}" cy="${y - 1}" r="2.6" fill="#FF4F6A" stroke="#fff" stroke-width=".8"/>`).join('') +
+      `<path d="M114 52 Q114 44 120 44 Q126 44 126 52 Z" fill="#F7D35A" stroke="#C08A12" stroke-width="1"/><circle cx="120" cy="53" r="1.6" fill="#C08A12"/>`,
     rosecrown: alongQ(6, [74, 84], [120, 26], [166, 84], (x, y, i) => rose(+x.toFixed(1), +y.toFixed(1), i % 2 ? 9 : 11, ['#F27DB5', '#FFD45E', '#E8365D', '#B79AF0', '#FF8DBA', '#F27DB5', '#FFD45E'][i % 7])) +
       `<path d="M150 66 l14 -8 l-2 16 Z M150 66 l16 8 l-14 6 Z" fill="#F27DB5" stroke="#fff"/>`,
   });
