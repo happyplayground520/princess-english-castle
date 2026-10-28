@@ -311,6 +311,28 @@ select.field { width: auto; }
 .land.now { border-color: var(--berry); animation: pulse 1.8s ease-in-out infinite; }
 .parentlink { position: absolute; right: 14px; bottom: 10px; font-size: 16px; color: var(--ink-soft); opacity: .7; padding: 6px 10px; }
 
+/* fit the tablet screen: sizes follow the screen height so a stage fits without scrolling */
+body { margin: 0; }
+.wrap { padding-block: 10px 14px; gap: 10px; }
+.opts.small { grid-template-columns: repeat(auto-fit, minmax(96px, 1fr)); gap: 8px; max-width: 980px; }
+.opts.small .opt { padding: 4px 4px 6px; border-width: 3px; border-radius: 18px; }
+.opts.small .opt .princess.sm { width: clamp(52px, 8vh, 72px); }
+.opts.small .opt .en { font-size: 20px; }
+.opts.small .opt .zh { font-size: 15px; }
+#stage { gap: clamp(8px, 1.6vh, 18px); padding-block: clamp(12px, 2vh, 22px); }
+#stage #body { gap: clamp(8px, 1.6vh, 18px) !important; }
+#stage .scene .princess:not(.sm) { height: clamp(150px, 30vh, 300px); }
+.wordcard .princess.lg { height: clamp(220px, 44vh, 420px); }
+#stage .bubble { font-size: clamp(24px, 3.6vh, 34px); padding: clamp(8px, 1.3vh, 14px) 20px; }
+#stage .car { font-size: clamp(24px, 3.8vh, 34px); padding-block: clamp(8px, 1.4vh, 14px) clamp(12px, 2vh, 18px); }
+#stage .horse { font-size: clamp(36px, 6vh, 56px); }
+#stage .mic { width: clamp(76px, 11vh, 112px); height: clamp(76px, 11vh, 112px); font-size: clamp(36px, 5vh, 52px); }
+#stage .say-zh { font-size: clamp(19px, 2.8vh, 24px); }
+#stage .opt { padding: 6px 6px 8px; }
+#stage .opt .princess.sm { width: clamp(96px, 17vh, 140px); }
+.mirror .princess { height: clamp(260px, 56vh, 460px); }
+.closet .dresses { max-height: calc(100vh - 250px); overflow-y: auto; padding: 4px; }
+
 @media (max-width: 560px) {
   body { font-size: 18px; }
   .bubble { font-size: 26px; }
@@ -973,7 +995,7 @@ function princess(feel = 'good', cls = '', look = S.look) {
       <path d="${starPath(120, 30, 5, .4)}" fill="#fff"/>` + sparkles([[70, 30, 3], [170, 34, 3.5]]),
   }[L.head.id];
 
-  const crop = sm ? '68 22 104 108' : cls.includes('lg') ? '0 0 240 418' : '30 0 180 240';
+  const crop = sm ? '64 14 112 138' : cls.includes('lg') ? '0 0 240 418' : '30 0 180 240';
   const glitter = sm ? '' : [[22, 60, 7], [218, 96, 6], [24, 180, 5], [216, 200, 8], [24, 290, 4], [214, 280, 5], [14, 236, 3.5], [200, 30, 4]].map(([x, y, r]) => `<path d="${starPath(x, y, r, .25)}" fill="#FFD45E" opacity=".9"/>`).join('');
   return `<svg class="princess ${cls}" viewBox="${crop}" role="img" aria-label="princess feeling ${feel}">
     <defs>
@@ -1218,7 +1240,7 @@ async function moodCheck() {
       <div class="title-zh zh">今日心情</div>
       <div class="scene">${princess('happy', 'sm')}<div class="bubble">How are you today? ${spk('How are you today?')}</div></div>
       <div class="say-zh zh">選一張和你今天一樣的心情 ${spk('你今天的心情是哪一個？選一張和你一樣的。', 'zh-TW')}</div>
-      <div class="opts" id="opts">${pool.map(w => optHTML(w)).join('')}</div>
+      <div class="opts small" id="opts">${pool.map(w => optHTML(w)).join('')}</div>
     </div>`;
   wireNav(); wireSpk();
   try {
@@ -1893,6 +1915,17 @@ async function gFinish(ch, idx, run) {
   wireNav();
   await zhSay(first ? '過關！你找到一隻玻璃鞋！' : '過關！');
 }
+
+/* ---------- fit each game screen inside the tablet; the picture book and parent page are lists and scroll ---------- */
+let fitTimer = null;
+function fitScreen() {
+  app.style.zoom = '';
+  if (app.querySelector('.book, .tablebox')) return;
+  const bottom = Math.max(0, ...[...app.children].map(c => c.getBoundingClientRect().bottom + scrollY)) + 14;
+  if (bottom > innerHeight) app.style.zoom = Math.max(.62, innerHeight / bottom).toFixed(3);
+}
+new MutationObserver(() => { clearTimeout(fitTimer); fitTimer = setTimeout(fitScreen, 30); }).observe(app, { childList: true, subtree: true });
+addEventListener('resize', () => { clearTimeout(fitTimer); fitTimer = setTimeout(fitScreen, 60); });
 
 /* ---------- page guidance: after 8 quiet seconds a hand points at the next thing to tap ---------- */
 let lastAct = Date.now();
