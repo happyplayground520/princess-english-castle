@@ -690,11 +690,11 @@ const zhSay = t => speak(t, 'zh-TW');
 /* ---------- voice in (only where the browser allows the microphone) ---------- */
 const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
 let srOK = !!SR;
-// Listens for up to 10 seconds and resolves { text, err } (null when the microphone cannot be used at all).
-// Interim results are on because Safari on iPad often sends nothing when it only gives final results;
-// onText shows the words live, and listening stops early once every word in target was heard.
+// Listens until stopListening() is called (her "I'm done" tap), every word in target was heard, or 30 seconds pass,
+// and resolves { text, err } (null when the microphone cannot be used at all).
+// Interim results are on because Safari on iPad often sends nothing when it only gives final results; onText shows the words live.
 // Safari on iPad does best with one recognizer that is reused; a fresh one after the first sentence often ends at once with nothing heard
-let liveRec = null, recBusy = false;
+let liveRec = null, recBusy = false, stopListening = () => {};
 function listen(target, onText) {
   return new Promise(res => {
     if (!srOK) return res(null);
@@ -710,7 +710,7 @@ function listen(target, onText) {
       clearTimeout(quiet); clearTimeout(longest);
       const cur = liveRec; cur.onresult = cur.onerror = cur.onend = null;
       try { cur.stop(); } catch (e) {}
-      recBusy = false;
+      recBusy = false; stopListening = () => {};
       res(srOK ? { text: text(), err, n: retries } : null);
     };
     r.onresult = e => {
@@ -721,9 +721,7 @@ function listen(target, onText) {
         else interim += ' ' + one[0].transcript;
       }
       if (onText) onText(text());
-      if (target && heardWords(text(), target).every(Boolean)) { clearTimeout(quiet); quiet = setTimeout(finish, 400); return; }
-      // once she has started talking, a short pause means she is done
-      clearTimeout(quiet); quiet = setTimeout(finish, 2500);
+      if (target && heardWords(text(), target).every(Boolean)) { clearTimeout(quiet); quiet = setTimeout(finish, 400); }
     };
     r.onerror = e => {
       err = e.error;
@@ -731,15 +729,17 @@ function listen(target, onText) {
       // "no-speech" or "aborted" before she spoke: onend below opens the microphone again
     };
     r.onend = () => {
-      // the iPad sometimes closes the microphone before she has said anything: open it again a few times
-      if (!text() && srOK && retries < 4 && Date.now() - began < 9000) {
+      // the iPad often closes the microphone by itself (before she speaks or at a pause): open it again until she taps "I'm done"
+      if (srOK && retries < 12 && Date.now() - began < 29000) {
         retries++; err = '';
+        if (interim) { finals += ' ' + interim; interim = ''; }
         setTimeout(() => { if (!settled) try { liveRec.start(); } catch (e) { err = 'restart'; finish(); } }, 150);
         return;
       }
       finish();
     };
-    longest = setTimeout(finish, 10000);
+    longest = setTimeout(finish, 30000);
+    stopListening = () => setTimeout(finish, 300);
     try { speechSynthesis.cancel(); } catch (e) {}
     // start right inside the tap: Safari on iPad only opens the microphone while it still counts as her tap
     try { r.start(); recBusy = true; } catch (e) {
@@ -1386,8 +1386,12 @@ function speakPanel(target, opts = {}) {
       }
       const mic = $('#mic');
       if (mic) mic.addEventListener('click', async () => {
-        if (mic.classList.contains('listening')) return;
-        mic.classList.add('listening'); $('#msg').textContent = '我在聽…請說整句話';
+        if (mic.classList.contains('listening')) { stopListening(); return; }
+        mic.classList.add('listening'); $('#msg').textContent = '我在聽…說完整句話，按「我說完了」';
+        const done = document.createElement('button');
+        done.className = 'btn mint big'; done.id = 'saidit'; done.innerHTML = '<span class="zh">我說完了</span> ✋';
+        done.addEventListener('click', () => { done.disabled = true; stopListening(); });
+        box.appendChild(done);
         const offset = opts.offset || 0;
         const check = said => {
           const hit = heardWords(said, target);
@@ -1398,12 +1402,12 @@ function speakPanel(target, opts = {}) {
           hit.forEach((h, i) => states[i + offset] = h ? 'on' : '');
           return { hit, states };
         };
-        const heard = await listen(target, said => { $('#msg').textContent = '🎧 ' + said; setCars(check(said).states); });
+        const heard = await listen(target, said => { $('#msg').textContent = '🎧 ' + said + '　（說完按「我說完了」）'; setCars(check(said).states); });
         if (heard === null) { render(srOK ? '' : '麥克風沒有打開。請到 iPad「設定 → Safari → 麥克風」選「允許」，或請家長幫忙按「我說好了」'); return; }
         tries++;
         if (!heard.text) {
           // the small code after the message tells the parent (and us) why nothing came back
-          render(({ network: '網路不太穩，再按 🎤 試一次', 'no-speech': '沒有聽到聲音。按 🎤 之後，等按鈕在跳再開始說' }[heard.err] || '沒有聽到聲音。靠近一點，按 🎤 再說一次') +
+          render(({ network: '網路不太穩，再按 🎤 試一次', 'no-speech': '沒有聽到聲音。按 🎤 之後，等按鈕在跳再開始說，說完再按「我說完了」' }[heard.err] || '沒有聽到聲音。靠近一點，按 🎤 再說一次') +
             `<br><small style="opacity:.6">（${esc(heard.err || 'no-result')}·${heard.n || 0}）</small>`);
           return;
         }
