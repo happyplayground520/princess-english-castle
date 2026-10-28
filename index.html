@@ -436,7 +436,7 @@ const LOOK = {
     { id: 'skygown', zh: '天空藍大蓬裙', main: '#9FD3F5', light: '#E8F6FF', accent: '#FFD45E', deco: 'stars',   shape: 'gown', sleeve: 'puff', need: 175 },
     { id: 'mermaid',   zh: '美人魚尾巴',   main: '#4FC3C9', light: '#BFF3EE', accent: '#B79AF0', deco: 'shell',   shape: 'mermaid', sleeve: 'bare', need: 120 },
     { id: 'unicorn',   zh: '獨角獸夢幻禮服', main: '#EBDDFF', light: '#FFE3F3', accent: '#FFD45E', deco: 'stars', dk: '#B79AE0', shape: 'gown', sleeve: 'puff', rainbowHem: true, need: 130 },
-    { id: 'newyear',   zh: '新年紅色禮服', main: '#E23B3B', light: '#FFE0A3', accent: '#F4C24D', deco: 'plum',    shape: 'aline', sleeve: 'puff', need: 60 },
+    { id: 'newyear',   zh: '新年紅紗禮服', main: '#E23B3B', light: '#FF9A9A', accent: '#F4C24D', deco: 'plum',    shape: 'aline', sleeve: 'flowy', tulle: true, need: 60 },
     { id: 'moonfest',  zh: '中秋月光禮服', main: '#34408A', light: '#FFF3C4', accent: '#FFE07A', deco: 'moon',    need: 90 },
     { id: 'halloween', zh: '萬聖節南瓜禮服', main: '#FF8A2A', light: '#4A3466', accent: '#4A3466', deco: 'bat',   sleeve: 'ruffle', need: 70 },
     { id: 'christmas', zh: '聖誕節紅絨禮服', main: '#D7263D', light: '#FFFFFF', accent: '#2E9E5B', deco: 'holly', sleeve: 'long', need: 100 },
@@ -520,6 +520,18 @@ const LOOK = {
     { id: 'gold',    zh: '金色亮片', c: '#F4C24D', glitter: true, need: 90 },
     { id: 'rainbow', zh: '彩虹',     c: '#F49AC1', rainbow: true, need: 150 },
   ],
+  outfit: [
+    { id: 'none',      zh: '穿禮服',       ic: '👗', need: 0 },
+    { id: 'teeshorts', zh: 'T恤配短褲',    kind: 'shorts',   top: '#FFFFFF', te: '#E2B9CF', bottom: '#6FB7E8', print: 'heart', need: 10 },
+    { id: 'teejeans',  zh: 'T恤配牛仔褲',  kind: 'pants',    top: '#FFE07A', bottom: '#4A78C8', print: 'star', need: 15 },
+    { id: 'sport',     zh: '粉紅運動服',   kind: 'sport',    top: '#FF8DBA', bottom: '#FF8DBA', need: 20 },
+    { id: 'teeskirt',  zh: 'T恤配百褶短裙', kind: 'skirt',   top: '#C7B5FF', bottom: '#F27DB5', print: 'star', need: 25 },
+    { id: 'overalls',  zh: '牛仔吊帶褲',   kind: 'overalls', top: '#FF9DB5', bottom: '#5A8BD6', need: 35 },
+    { id: 'overdress', zh: '草莓吊帶裙',   kind: 'overdress', top: '#FFFFFF', te: '#E2B9CF', bottom: '#F2557A', need: 40 },
+    { id: 'bear',      zh: '小熊玩偶服',   kind: 'mascot', animal: 'bear',  c: '#B07A4F', light: '#F3D9B8', need: 60 },
+    { id: 'bunnysuit', zh: '兔兔玩偶服',   kind: 'mascot', animal: 'bunny', c: '#FFFFFF', te: '#E2C8D8', light: '#FFD3E6', need: 70 },
+    { id: 'dino',      zh: '恐龍玩偶服',   kind: 'mascot', animal: 'dino',  c: '#7CCB6B', light: '#FFF0A8', need: 80 },
+  ],
   shoes: [
     { id: 'glass',      zh: '玻璃鞋',     kind: 'pump',    c: '#DDF4FF', edge: '#7CC6E8', need: 0 },
     { id: 'pinkheel',   zh: '粉紅高跟鞋', kind: 'heel',    c: '#FF8DBA', edge: '#D9578F', need: 8 },
@@ -530,12 +542,19 @@ const LOOK = {
     { id: 'purpleheel', zh: '紫色高跟鞋', kind: 'heel',    c: '#A57BEA', edge: '#6E48B8', need: 85 },
     { id: 'brownboots', zh: '咖啡色靴子', kind: 'boot',    c: '#A0643F', edge: '#6F3F27', need: 105 },
     { id: 'goldheel',   zh: '金色高跟鞋', kind: 'heel',    c: '#F4C24D', edge: '#C08A12', need: 135 },
+    { id: 'sneakers',   zh: '粉紅運動鞋', kind: 'sneaker', c: '#FFFFFF', edge: '#F27DB5', need: 12 },
+    { id: 'bluesneak',  zh: '藍色運動鞋', kind: 'sneaker', c: '#DDF0FF', edge: '#3E8EDE', need: 25 },
+    { id: 'maryjane',   zh: '黑色瑪莉珍鞋', kind: 'maryjane', c: '#3A2E3F', edge: '#1E1622', need: 20 },
+    { id: 'redmary',    zh: '紅色瑪莉珍鞋', kind: 'maryjane', c: '#E8365D', edge: '#A81E3F', need: 40 },
+    { id: 'rainboots',  zh: '黃色雨靴',   kind: 'boot',    c: '#FFD45E', edge: '#D9A21A', plain: true, need: 35 },
+    { id: 'ballet',     zh: '芭蕾舞鞋',   kind: 'ballet',  c: '#FFC2D6', edge: '#E88AAE', need: 55 },
+    { id: 'crystal',    zh: '水晶高跟鞋', kind: 'heel',    c: '#BDEBFF', edge: '#5DB8E0', need: 160 },
   ],
 };
-const LOOK_TABS = [['dress', '👗', '禮服'], ['hair', '💇‍♀️', '髮型'], ['color', '🎨', '髮色'], ['head', '👑', '頭飾'], ['earring', '✨', '耳環'], ['necklace', '📿', '項鍊'], ['shoes', '👠', '鞋子']];
+const LOOK_TABS = [['dress', '👗', '禮服'], ['outfit', '🎽', '特殊套裝'], ['hair', '💇‍♀️', '髮型'], ['color', '🎨', '髮色'], ['head', '👑', '頭飾'], ['earring', '✨', '耳環'], ['necklace', '📿', '項鍊'], ['shoes', '👠', '鞋子']];
 // one letter per key in the backup code, in this order (nails stays so older codes line up)
-const LOOK_KEYS = ['dress', 'hair', 'color', 'head', 'earring', 'necklace', 'nails', 'shoes'];
-const DEFAULT_LOOK = { dress: 'bubble', hair: 'long', color: 'gold', head: 'crown', earring: 'none', necklace: 'none', nails: 'pink', shoes: 'glass' };
+const LOOK_KEYS = ['dress', 'hair', 'color', 'head', 'earring', 'necklace', 'nails', 'shoes', 'outfit'];
+const DEFAULT_LOOK = { dress: 'bubble', hair: 'long', color: 'gold', head: 'crown', earring: 'none', necklace: 'none', nails: 'pink', shoes: 'glass', outfit: 'none' };
 const RAINBOW_STOPS = ['#F49AC1', '#F4C24D', '#86DDB9', '#8EC5F2', '#B79AF0'];
 function lookItem(key, id) { return LOOK[key].find(x => x.id === id) || LOOK[key][0]; }
 
@@ -796,6 +815,7 @@ function scallops(pts, depth) {
   }
   return d;
 }
+const bowAtShoe = (x, y, col) => `<path d="M${x} ${y} l-4 -2.5 v5 Z M${x} ${y} l4 -2.5 v5 Z" fill="${col}"/><circle cx="${x}" cy="${y}" r="1.2" fill="${col}"/>`;
 function shoeArt(x, side, st, accent) {
   // one foot, toe toward the viewer; side is -1 for her right foot (left on screen)
   const { c, edge } = st;
@@ -810,7 +830,7 @@ function shoeArt(x, side, st, accent) {
   }
   if (st.kind === 'boot') {
     const fur = st.fur ? alongQ(5, [x - 8, 383], [x, 381], [x + 8, 383], (fx, fy) => `<circle cx="${fx.toFixed(1)}" cy="${fy.toFixed(1)}" r="2.8" fill="#fff" stroke="#E6DDF0" stroke-width=".6"/>`)
-      : `<path d="M${x - 3} 388 L${x + 3} 390 M${x - 3} 392 L${x + 3} 394 M${x + 3} 388 L${x - 3} 390 M${x + 3} 392 L${x - 3} 394" stroke="#F3D9B8" stroke-width="1"/>`;
+      : st.plain ? `<path d="M${x - 6} 386 L${x + 6} 386" stroke="#fff" stroke-width="1.6" opacity=".6"/>` : `<path d="M${x - 3} 388 L${x + 3} 390 M${x - 3} 392 L${x + 3} 394 M${x + 3} 388 L${x - 3} 390 M${x + 3} 392 L${x - 3} 394" stroke="#F3D9B8" stroke-width="1"/>`;
     return `<path d="M${x - 7} 382 L${x + 7} 382 L${x + 8} 400 C${x + 12} 402 ${x + 11} 410 ${x + 9} 410 L${x - 9} 410 C${x - 11} 410 ${x - 11} 402 ${x - 8} 400 Z" fill="${c}" stroke="${edge}" stroke-width="1.6" stroke-linejoin="round"/>` +
       `<path d="M${x - 10} 409 L${x + 10} 409" stroke="${edge}" stroke-width="2.5" stroke-linecap="round"/>` + fur + (st.fur ? `<circle cx="${x}" cy="398" r="2.4" fill="${accent}"/>` : '');
   }
@@ -819,6 +839,21 @@ function shoeArt(x, side, st, accent) {
       `<path d="M${x - 10} 410.5 L${x + 10} 410.5" stroke="${edge}" stroke-width="3" stroke-linecap="round"/>` +
       `<path d="M${x - 7} 402 Q${x} 399 ${x + 7} 402 M${x - 8} 407 Q${x} 404 ${x + 8} 407 M${x - 5} 391 L${x + 5} 391" stroke="${c}" stroke-width="2.2" fill="none" stroke-linecap="round"/>` +
       [0, 72, 144, 216, 288].map(a => `<circle cx="${x}" cy="397.5" r="1.8" transform="rotate(${a} ${x} 400)" fill="#FF8DBA"/>`).join('') + `<circle cx="${x}" cy="400" r="1.5" fill="#FFE27A"/>`;
+  }
+  if (st.kind === 'sneaker') {
+    return ankle + `<path d="M${x - 10} 410 C${x - 11} 400 ${x - 6} 394 ${x} 394 C${x + 6} 394 ${x + 11} 400 ${x + 10} 410 Z" fill="${c}" stroke="${edge}" stroke-width="1.6"/>` +
+      `<path d="M${x - 11} 409.5 L${x + 11} 409.5" stroke="${edge}" stroke-width="3.2" stroke-linecap="round"/>` +
+      `<path d="M${x - 4} 398 L${x + 4} 398 M${x - 4.5} 401.5 L${x + 4.5} 401.5" stroke="${edge}" stroke-width="1.4" stroke-linecap="round"/>` +
+      `<path d="M${x - 9} 405 Q${x} 403 ${x + 9} 405" stroke="${edge}" stroke-width="1.6" fill="none" opacity=".6"/>`;
+  }
+  if (st.kind === 'maryjane') {
+    return ankle + `<path d="${toe}" fill="${c}" stroke="${edge}" stroke-width="1.6"/><ellipse cx="${x}" cy="398" rx="4.5" ry="2" fill="${SKIN}"/>` +
+      `<path d="M${x - 7} 400 L${x + 7} 400" stroke="${c}" stroke-width="2.6" stroke-linecap="round"/><circle cx="${x + 5 * side}" cy="400" r="1.6" fill="#fff"/>` +
+      `<path d="M${x - 6} 406 Q${x - 2} 403 ${x + 1} 404" stroke="#fff" stroke-width="1.4" opacity=".5" fill="none"/>`;
+  }
+  if (st.kind === 'ballet') {
+    return ankle + `<path d="M${x - 5} 386 L${x + 5} 392 M${x + 5} 386 L${x - 5} 392 M${x - 5} 392 L${x + 5} 397 M${x + 5} 392 L${x - 5} 397" stroke="${edge}" stroke-width="1.6" stroke-linecap="round"/>` +
+      `<path d="${toe}" fill="${c}" stroke="${edge}" stroke-width="1.4"/><ellipse cx="${x}" cy="398.5" rx="4.5" ry="2" fill="${SKIN}"/>${bowAtShoe(x, 401, edge)}`;
   }
   // fluffy bunny slipper
   return ankle + `<ellipse cx="${x - 3.5}" cy="395" rx="2.6" ry="6" transform="rotate(-14 ${x - 3.5} 395)" fill="${c}" stroke="${edge}" stroke-width="1.1"/><ellipse cx="${x + 3.5}" cy="395" rx="2.6" ry="6" transform="rotate(14 ${x + 3.5} 395)" fill="${c}" stroke="${edge}" stroke-width="1.1"/>` +
@@ -846,8 +881,9 @@ function princess(feel = 'good', cls = '', look = S.look) {
            strands('M70 140 C58 170 72 190 58 220 C46 250 62 270 48 300 C40 320 50 340 40 356 M170 140 C182 170 168 190 182 220 C194 250 178 270 192 300 C200 320 190 340 200 356') +
            strands('M26 352 c-9 4 -7 16 4 14 c7 -2 5 -11 -2 -9 M214 352 c9 4 7 16 -4 14 c-7 -2 -5 -11 2 -9 M56 376 c-7 5 -2 14 5 11 M184 376 c7 5 2 14 -5 11'),
     // knee length: flows down her back and fans out beside the gown, never over it
-    verylong: `<path d="M62 104 C52 30 188 30 178 104 C190 160 212 222 226 290 C234 330 232 358 222 376 C216 364 210 356 202 352 C206 364 204 376 196 384 C194 352 184 322 168 302 L72 302 C56 322 46 352 44 384 C36 376 34 364 38 352 C30 356 24 364 18 376 C8 358 6 330 14 290 C28 222 50 160 62 104 Z" fill="${hairFill}" ${hs}/>` +
-          strands('M72 140 C56 200 36 260 26 330 M168 140 C184 200 204 260 214 330 M84 170 C70 220 54 280 46 350 M156 170 C170 220 186 280 194 350'),
+    verylong: `<path d="M62 104 C52 30 188 30 178 104 C190 150 196 210 202 270 C208 320 212 352 218 386 C210 392 202 390 196 384 C194 390 186 394 178 388 C176 380 174 374 170 368 L70 368 C66 374 64 380 62 388 C54 394 46 390 44 384 C38 390 30 392 22 386 C28 352 32 320 38 270 C44 210 50 150 62 104 Z" fill="${hairFill}" ${hs}/>` +
+          strands('M70 140 C62 200 56 270 48 360 M170 140 C178 200 184 270 192 360 M84 168 C78 230 70 300 64 370 M156 168 C162 230 170 300 176 370 M58 200 C52 260 44 320 36 380 M182 200 C188 260 196 320 204 380') +
+          `<path d="M60 150 C56 200 50 250 46 300 M180 150 C184 200 190 250 194 300" stroke="${c.shine}" stroke-width="4" opacity=".5" fill="none" stroke-linecap="round"/>`,
     long: `<path d="M62 104 C52 30 188 30 178 104 C184 150 190 190 196 228 C198 240 192 250 184 254 C186 244 182 236 176 232 C178 242 172 252 162 256 C164 246 160 238 154 236 L86 236 C80 238 76 246 78 256 C68 252 62 242 64 232 C58 236 54 244 56 254 C48 250 42 240 44 228 C50 190 56 150 62 104 Z" fill="${hairFill}" ${hs}/>` +
           strands('M76 132 C70 170 66 204 60 238 M164 132 C170 170 174 204 180 238 M92 160 C88 196 86 216 84 236 M148 160 C152 196 154 216 156 236'),
     wavy: `<path d="M62 104 C52 30 188 30 178 104 C190 130 176 150 188 172 C200 194 182 210 194 232 C200 244 190 256 178 254 C186 246 180 236 170 238 C172 248 162 256 152 250 L88 250 C78 256 68 248 70 238 C60 236 54 246 62 254 C50 256 40 244 46 232 C58 210 40 194 52 172 C64 150 50 130 62 104 Z" fill="${hairFill}" ${hs}/>` +
@@ -909,6 +945,9 @@ function princess(feel = 'good', cls = '', look = S.look) {
     <path d="M102 226 C92 262 66 320 52 368${scallops(qPts(9, [52, 368], [120, 390], [188, 368]), 6)} C174 320 148 262 138 226 Q120 234 102 226 Z" fill="${main}" stroke="${dk}" stroke-width="1.5" stroke-linejoin="round"/>
     <path d="M96 244 C82 280 70 320 64 356 M144 244 C158 280 170 320 176 356" stroke="#fff" stroke-width="4" opacity=".22" fill="none" stroke-linecap="round"/>
     <path d="M110 240 C104 290 94 330 88 376 M130 240 C136 290 146 330 152 376 M120 242 L120 384" stroke="${dk}" stroke-width="1.2" opacity=".3" fill="none"/>
+    ${d.tulle ? `<path d="M100 224 C84 262 50 322 30 374${scallops(qPts(12, [30, 374], [120, 404], [210, 374]), 6)} C190 322 156 262 140 224 Q120 232 100 224 Z" fill="${d.light}" opacity=".42" stroke="#fff" stroke-width="1.2"/>
+      <path d="M101 224 C90 262 66 318 50 364${scallops(qPts(10, [50, 364], [120, 390], [190, 364]), 5)} C174 318 150 262 139 224 Q120 232 101 224 Z" fill="${d.light}" opacity=".35" stroke="#fff" stroke-width="1"/>` +
+      [[60, 340], [180, 340], [76, 300], [164, 300], [44, 368], [196, 368], [100, 370], [140, 370], [92, 270], [148, 270]].map(([x, y]) => `<circle cx="${x}" cy="${y}" r="1.8" fill="#FFE07A"/>`).join('') : ''}
     ${decoAt(.56, 1.08)}`,
     // floor length with a train sweeping out behind her
     train: `${feet}
@@ -1158,6 +1197,67 @@ function princess(feel = 'good', cls = '', look = S.look) {
       `<path d="M150 66 l14 -8 l-2 16 Z M150 66 l16 8 l-14 6 Z" fill="#F27DB5" stroke="#fff"/>`,
   });
 
+  /* special outfits: T-shirts with shorts, jeans or a pleated skirt, a tracksuit, overalls, and cosy animal onesies with a hood */
+  const O = L.outfit;
+  let outfit = null;
+  if (O.id !== 'none') {
+    const tc = O.top || O.c, te = O.te || shade(tc, .3), bc = O.bottom || O.c, be = O.te || shade(bc, .3);
+    const armP = 'M90 184 C85 206 90 230 100 254';
+    const tube = (col, edge) => `<path d="${armP}" stroke="${edge}" stroke-width="12.5" fill="none" stroke-linecap="round"/><path d="${armP}" stroke="${col}" stroke-width="10" fill="none" stroke-linecap="round"/>`;
+    const bareArm = `<path d="${armP}" stroke="${SKIN2}" stroke-width="10" fill="none" stroke-linecap="round"/><path d="${armP}" stroke="${SKIN}" stroke-width="7.5" fill="none" stroke-linecap="round"/>`;
+    const neck = `<path d="M112 146 L112 162 Q120 166 128 162 L128 146 Z" fill="${SKIN2}"/>`;
+    const torso = (col, edge) => `<path d="M92 168 Q120 158 148 168 C151 196 151 224 149 252 Q120 258 91 252 C89 224 89 196 92 168 Z" fill="${col}" stroke="${edge}" stroke-width="1.4" stroke-linejoin="round"/>`;
+    const collar = `<path d="M108 164 Q120 176 132 164" stroke="${te}" stroke-width="2.2" fill="none"/>`;
+    const cap = `<path d="M82 174 C80 164 96 160 101 170 L101 192 Q91 197 82 192 Z" fill="${tc}" stroke="${te}" stroke-width="1.3" stroke-linejoin="round"/>`;
+    const print = { heart: `<path d="${heartPath(120, 202, 1.1)}" fill="#FF6FA8"/>`, star: `<path d="${starPath(120, 204, 10)}" fill="#fff" stroke="${te}" stroke-width="1"/>` }[O.print] || '';
+    const tee = neck + torso(tc, te) + collar + print;
+    const legs = `<path d="M98 250 L101 388 L113 388 L118 250 Z M122 250 L127 388 L139 388 L142 250 Z" fill="${SKIN}" stroke="${SKIN2}" stroke-width="1.2" stroke-linejoin="round"/>`;
+    const pants = `<path d="M96 246 L95 380 Q107 384 119 380 L120 266 L121 380 Q133 384 145 380 L144 246 Z" fill="${bc}" stroke="${be}" stroke-width="1.4" stroke-linejoin="round"/>`;
+    const shorts = `<path d="M95 244 L92 302 Q105 307 118 302 L120 272 L122 302 Q135 307 148 302 L145 244 Z" fill="${bc}" stroke="${be}" stroke-width="1.4" stroke-linejoin="round"/><path d="M93 296 Q105 300 117 296 M123 296 Q135 300 147 296" stroke="#fff" stroke-width="1.8" opacity=".7" fill="none"/>`;
+    const skirtS = (dots) => `<path d="M96 244 L80 308 Q120 320 160 308 L144 244 Z" fill="${bc}" stroke="${be}" stroke-width="1.4" stroke-linejoin="round"/>` +
+      [104, 112, 120, 128, 136].map(x => `<path d="M${x} 248 L${120 + (x - 120) * 2.3} 312" stroke="${be}" stroke-width="1" opacity=".45"/>`).join('') +
+      (dots ? [[100, 270], [140, 270], [92, 296], [120, 290], [148, 296]].map(([x, y]) => `<path d="M${x} ${y - 3} C${x + 5} ${y - 3} ${x + 4} ${y + 4} ${x} ${y + 6} C${x - 4} ${y + 4} ${x - 5} ${y - 3} ${x} ${y - 3} Z" fill="#FFF0F3"/><path d="M${x - 2} ${y - 4} L${x} ${y - 2} L${x + 2} ${y - 4}" stroke="#7FCF95" stroke-width="1.4" fill="none"/>`).join('') : '');
+    const bib = `<path d="M103 198 L137 198 L139 252 L101 252 Z" fill="${bc}" stroke="${be}" stroke-width="1.3" stroke-linejoin="round"/><rect x="112" y="208" width="16" height="12" rx="2" fill="none" stroke="${be}" stroke-width="1.2"/>` +
+      `<path d="M95 170 L105 200 M145 170 L135 200" stroke="${bc}" stroke-width="5.5" stroke-linecap="round"/><path d="M95 170 L105 200 M145 170 L135 200" stroke="${be}" stroke-width="1" opacity=".5"/>` +
+      `<circle cx="105" cy="201" r="2.6" fill="#F7D35A" stroke="#C08A12" stroke-width=".8"/><circle cx="135" cy="201" r="2.6" fill="#F7D35A" stroke="#C08A12" stroke-width=".8"/>`;
+    if (O.kind === 'mascot') {
+      const oe = O.te || shade(O.c, .3);
+      const suit = `<path d="M92 168 Q120 158 148 168 C152 200 154 236 152 262 L149 382 Q135 386 122 382 L120 290 L118 382 Q105 386 91 382 L88 262 C86 236 88 200 92 168 Z" fill="${O.c}" stroke="${oe}" stroke-width="1.5" stroke-linejoin="round"/>` +
+        `<ellipse cx="120" cy="236" rx="18" ry="30" fill="${O.light}"/>` + (O.animal === 'dino' ? [212, 228, 244, 260].map(y => `<path d="M104 ${y} Q120 ${y + 5} 136 ${y}" stroke="${shade(O.light, .25)}" stroke-width="1.2" fill="none"/>`).join('') : '') +
+        `<path d="M120 172 L120 202" stroke="${oe}" stroke-width="1.2" opacity=".5"/>`;
+      const paws = [107, 133].map(x => `<ellipse cx="${x}" cy="392" rx="11" ry="8" fill="${O.c}" stroke="${oe}" stroke-width="1.4"/><ellipse cx="${x}" cy="394" rx="5" ry="3.4" fill="${O.light}"/>`).join('');
+      const tail = O.animal === 'dino' ? `<path d="M146 300 C176 316 198 352 216 396 C196 392 168 364 146 334 Z" fill="${O.c}" stroke="${oe}" stroke-width="1.4" stroke-linejoin="round"/>` +
+        [[168, 322], [184, 344], [198, 368]].map(([x, y]) => `<path d="M${x - 5} ${y - 2} L${x + 4} ${y - 12} L${x + 5} ${y + 2} Z" fill="#FFB547" stroke="${oe}" stroke-width=".8"/>`).join('') : '';
+      const ears = {
+        bear: [74, 166].map(x => `<circle cx="${x}" cy="46" r="17" fill="${O.c}" stroke="${oe}" stroke-width="2"/><circle cx="${x}" cy="46" r="9" fill="${O.light}"/>`).join(''),
+        bunny: [[98, -14], [142, 14]].map(([x, r]) => `<g transform="rotate(${r} ${x} 52)"><ellipse cx="${x}" cy="26" rx="11" ry="26" fill="${O.c}" stroke="${oe}" stroke-width="2"/><ellipse cx="${x}" cy="28" rx="5.5" ry="18" fill="${O.light}"/></g>`).join(''),
+        dino: alongQ(6, [64, 66], [120, -6], [176, 66], (x, y) => `<path d="M${(x - 7).toFixed(1)} ${(y + 8).toFixed(1)} L${x.toFixed(1)} ${(y - 8).toFixed(1)} L${(x + 7).toFixed(1)} ${(y + 8).toFixed(1)} Z" fill="#FFB547" stroke="${oe}" stroke-width="1.2" stroke-linejoin="round"/>`),
+      }[O.animal];
+      const hood = ears + `<path d="M54 112 C44 26 196 26 186 112 C188 150 178 176 160 186 L80 186 C62 176 52 150 54 112 Z" fill="${O.c}" stroke="${oe}" stroke-width="2"/>` +
+        (O.animal === 'dino' ? `<circle cx="96" cy="50" r="3" fill="#fff" stroke="${oe}"/><circle cx="144" cy="50" r="3" fill="#fff" stroke="${oe}"/>` : '');
+      // costume arms hang outside the suit and end in soft round paws
+      const sideP = 'M90 180 C84 202 82 222 86 242';
+      const arm = `<path d="${sideP}" stroke="${oe}" stroke-width="13" fill="none" stroke-linecap="round"/><path d="${sideP}" stroke="${O.c}" stroke-width="10.5" fill="none" stroke-linecap="round"/>` +
+        `<ellipse cx="86" cy="246" rx="7.5" ry="6.5" fill="${O.c}" stroke="${oe}" stroke-width="1.3"/><ellipse cx="86" cy="247.5" rx="3.8" ry="3.2" fill="${O.light}"/>`;
+      outfit = { back: '', body: tail + suit + paws, upper: suit, front: arm, hood };
+    } else {
+      const k = O.kind;
+      const top = k === 'sport'
+        ? neck + torso(tc, te) + `<path d="M108 164 L120 178 L132 164" stroke="#fff" stroke-width="2.4" fill="none"/><path d="M120 178 L120 254" stroke="${te}" stroke-width="1.6"/><circle cx="120" cy="184" r="2" fill="#fff"/>` +
+          `<path d="M94 176 L100 176 M140 176 L146 176" stroke="#fff" stroke-width="3" stroke-linecap="round"/>`
+        : tee;
+      const bottom = { shorts: legs + shorts, pants: pants + `<path d="M101 252 L100 378 M139 252 L140 378" stroke="#fff" stroke-width="1" opacity=".35" stroke-dasharray="3 3"/><path d="M95 372 Q107 376 119 372 M121 372 Q133 376 145 372" stroke="${shade(bc, .2)}" stroke-width="4" fill="none"/>`,
+        sport: pants + `<path d="M97 252 L96 376 M143 252 L144 376" stroke="#fff" stroke-width="3"/>`, skirt: legs + skirtS(false), overalls: pants, overdress: legs + skirtS(true) }[k];
+      const back = k === 'sport' ? tube(tc, te) + `<path d="M88 200 C86 214 88 230 96 248" stroke="#fff" stroke-width="2.4" fill="none" opacity=".9"/>` : bareArm;
+      const front = k === 'sport' ? '' : cap;
+      const overBib = k === 'overalls' || k === 'overdress' ? bib : '';
+      // shorts, jeans and skirts sit under the T-shirt hem; overalls go over the shirt
+      const body = k === 'overalls' || k === 'overdress' ? feet + top + bottom + overBib : feet + bottom + top;
+      outfit = { back, body, upper: top + overBib, front };
+    }
+  }
+
+  const hooded = !!(outfit && outfit.hood);
   const crop = sm ? '64 14 112 138' : cls.includes('lg') ? '0 0 240 418' : '30 0 180 240';
   const glitter = sm ? '' : [[22, 60, 7], [218, 96, 6], [24, 180, 5], [216, 200, 8], [24, 290, 4], [214, 280, 5], [14, 236, 3.5], [200, 30, 4]].map(([x, y, r]) => `<path d="${starPath(x, y, r, .25)}" fill="#FFD45E" opacity=".9"/>`).join('');
   return `<svg class="princess ${cls}" viewBox="${crop}" role="img" aria-label="princess feeling ${feel}">
@@ -1167,13 +1267,15 @@ function princess(feel = 'good', cls = '', look = S.look) {
       <linearGradient id="${id}rb" x1="0" x2="1">${RAINBOW_STOPS.map((s, i) => `<stop offset="${i / 4}" stop-color="${s}"/>`).join('')}</linearGradient>
     </defs>
     ${glitter}
-    ${headBack}<g transform="${HEAD_T}">${backHair}</g>
-    ${sm ? '' : sleeve.back + mirror(sleeve.back)}${sm ? upper : skirt + upper}${necklace}${sleeve.front}${mirror(sleeve.front)}
+    ${hooded ? '' : headBack}<g transform="${HEAD_T}">${hooded ? '' : backHair}</g>
+    ${outfit
+      ? `${sm ? '' : outfit.back + mirror(outfit.back)}${sm ? outfit.upper : outfit.body}${necklace}${outfit.front}${mirror(outfit.front)}`
+      : `${sm ? '' : sleeve.back + mirror(sleeve.back)}${sm ? upper : skirt + upper}${necklace}${sleeve.front}${mirror(sleeve.front)}`}
     <g transform="${HEAD_T}">
-      <path d="M72 104 C72 54 168 54 168 104 C168 142 150 168 120 172 C90 168 72 142 72 104 Z" fill="${SKIN}" stroke="#EBC2B3" stroke-width="1.2"/>
+      ${hooded ? outfit.hood : ''}<path d="M72 104 C72 54 168 54 168 104 C168 142 150 168 120 172 C90 168 72 142 72 104 Z" fill="${SKIN}" stroke="#EBC2B3" stroke-width="1.2"/>
       ${cheeks}${brows}${eye(100, -1)}${eye(140, 1)}
       <path d="M119 140 Q121 142 119 143.5" stroke="#E5A493" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-      ${mouth}${tear}${front}${earring(76)}${earring(164)}${ties}${headPieces[L.head.id] || ''}${zzz}${ex}
+      ${mouth}${tear}${front}${earring(76)}${earring(164)}${hooded ? '' : ties + (headPieces[L.head.id] || '')}${zzz}${ex}
     </g>
   </svg>`;
 }
@@ -2138,14 +2240,14 @@ function book() {
 }
 
 /* ---------- wardrobe ---------- */
-let wardrobeTab = 'dress';
+let wardrobeTab = 'dress', wardrobeShown = '';
 let tryOn = null; // a locked item shown on the mirror before it is earned
 const faceNow = () => S.face || S.mood || 'happy';
 // a face is ready once she has said that feeling in a whole sentence; happy and good are ready from the start
 const faceOpen = w => w === 'happy' || w === 'good' || (S.words[w] || {}).said > 0;
 function swatch(key, it) {
   const pv = vb => `<span class="sw pv">${princess(faceNow(), 'lg', Object.assign({}, S.look, { [key]: it.id })).replace(/viewBox="[^"]+"/, `viewBox="${vb}"`)}</span>`;
-  const views = { dress: '0 140 240 278', hair: '0 0 240 340', head: '56 0 128 100', earring: '66 96 108 64', necklace: '94 146 52 46' };
+  const views = { dress: '0 140 240 278', outfit: '0 140 240 278', hair: '0 0 240 340', head: '56 0 128 100', earring: '66 96 108 64', necklace: '94 146 52 46' };
   if (views[key]) return pv(views[key]);
   if (key === 'dress') {
     const bg = it.main === 'RAINBOW' ? `linear-gradient(135deg,${RAINBOW_STOPS.join(',')})` : `linear-gradient(135deg,${it.main} 55%,${it.light})`;
@@ -2162,7 +2264,11 @@ function wardrobe() {
   const items = isFace ? ROUNDS.flat().map(w => ({ id: w, zh: FEELINGS[w].zh })) : LOOK[wardrobeTab];
   const worn = id => isFace ? faceNow() === id : S.look[wardrobeTab] === id;
   const ready = it => isFace ? faceOpen(it.id) : S.gems >= it.need;
-  const look = tryOn && tryOn.key !== 'face' ? Object.assign({}, S.look, { [tryOn.key]: tryOn.id }) : S.look;
+  const look = tryOn && tryOn.key !== 'face' ? Object.assign({}, S.look, { [tryOn.key]: tryOn.id }, tryOn.key === 'dress' ? { outfit: 'none' } : {}) : S.look;
+  // remember how far down the list she scrolled, so tapping an item lower down does not jump back to the top
+  const oldList = app.querySelector('.closet .dresses');
+  const keepScroll = oldList && wardrobeShown === wardrobeTab ? oldList.scrollTop : 0;
+  wardrobeShown = wardrobeTab;
   const face = tryOn && tryOn.key === 'face' ? tryOn.id : faceNow();
   app.innerHTML = `${topbar('home')}
     <div class="card">
@@ -2189,6 +2295,8 @@ function wardrobe() {
       </div>
     </div>`;
   wireNav();
+  const list = app.querySelector('.closet .dresses');
+  if (list) list.scrollTop = keepScroll;
   app.querySelectorAll('[data-tab]').forEach(b => b.addEventListener('click', () => { wardrobeTab = b.dataset.tab; tryOn = null; wardrobe(); }));
   if ($('#untry')) $('#untry').addEventListener('click', () => { tryOn = null; wardrobe(); });
   if ($('#snap')) $('#snap').addEventListener('click', showPhoto);
@@ -2203,6 +2311,7 @@ function wardrobe() {
     }
     tryOn = null;
     if (isFace) S.face = it.id; else S.look[wardrobeTab] = it.id;
+    if (wardrobeTab === 'dress') S.look.outfit = 'none';
     save(); wardrobe(); celebrate(['💖', '✨', '💎']); praise();
   }));
 }
