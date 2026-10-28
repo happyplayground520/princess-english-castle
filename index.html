@@ -1301,7 +1301,7 @@ async function learnStage(i, run) {
       <div class="speak" id="speak"></div>`);
     await speak(w); guard(run);
     await wait(300); await speak(w); guard(run);
-    await speakPanel([w]); guard(run);
+    await speakPanel([w], { hideModel: true }); guard(run); // the card already has its own speaker
     celebrate(['✨', '💖']);
     addGems(1);
   }
@@ -1763,7 +1763,7 @@ async function gLearn(ch, idx, run) {
       <div class="speak" id="speak"></div>`);
     await speak(it.w); guard(run);
     await wait(300); await speak(it.w); guard(run);
-    await speakPanel(it.w.split(' ')); guard(run);
+    await speakPanel(it.w.split(' '), { hideModel: true }); guard(run); // the card already has its own speaker
     wordStat(it.key).said++;
     celebrate(['✨', '💖']); addGems(1);
   }
