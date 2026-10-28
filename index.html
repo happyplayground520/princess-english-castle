@@ -597,20 +597,47 @@ const zhSay = t => speak(t, 'zh-TW');
 /* ---------- voice in (only where the browser allows the microphone) ---------- */
 const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
 let srOK = !!SR;
-function listen() {
+// Listens for up to 10 seconds and resolves { text, err } (null when the microphone cannot be used at all).
+// Interim results are on because Safari on iPad often sends nothing when it only gives final results;
+// onText shows the words live, and listening stops early once every word in target was heard.
+function listen(target, onText) {
   return new Promise(res => {
     if (!srOK) return res(null);
     let r; try { r = new SR(); } catch (e) { srOK = false; return res(null); }
-    r.lang = 'en-US'; r.interimResults = false; r.maxAlternatives = 5;
-    let got = '', settled = false;
-    const end = v => { if (!settled) { settled = true; res(v); } };
-    r.onresult = e => { for (const result of e.results) for (const alt of result) got += ' ' + alt.transcript; };
-    r.onerror = e => { if (e.error === 'not-allowed' || e.error === 'service-not-allowed' || e.error === 'audio-capture') { srOK = false; end(null); } };
-    r.onend = () => end(srOK ? got : null);
-    try { speechSynthesis.cancel(); r.start(); } catch (e) { srOK = false; end(null); }
-    setTimeout(() => { try { r.stop(); } catch (e) {} }, 7000);
+    r.lang = 'en-US'; r.interimResults = true; r.continuous = true; r.maxAlternatives = 3;
+    let finals = '', interim = '', err = '', settled = false, quiet = null, longest = null;
+    const text = () => (finals + ' ' + interim).replace(/\s+/g, ' ').trim();
+    const finish = () => {
+      if (settled) return; settled = true;
+      clearTimeout(quiet); clearTimeout(longest);
+      try { r.stop(); } catch (e) {}
+      res(srOK ? { text: text(), err } : null);
+    };
+    r.onresult = e => {
+      interim = '';
+      for (let i = e.resultIndex; i < e.results.length; i++) {
+        const one = e.results[i];
+        if (one.isFinal) for (let k = 0; k < one.length; k++) finals += ' ' + one[k].transcript;
+        else interim += ' ' + one[0].transcript;
+      }
+      if (onText) onText(text());
+      if (target && heardWords(text(), target).every(Boolean)) { clearTimeout(quiet); quiet = setTimeout(finish, 400); return; }
+      // once she has started talking, a short pause means she is done
+      clearTimeout(quiet); quiet = setTimeout(finish, 2500);
+    };
+    r.onerror = e => {
+      err = e.error;
+      if (err === 'not-allowed' || err === 'service-not-allowed' || err === 'audio-capture') srOK = false;
+      finish();
+    };
+    r.onend = finish;
+    longest = setTimeout(finish, 10000);
+    try { speechSynthesis.cancel(); } catch (e) {}
+    // give the speaker a moment to go quiet before the microphone opens
+    setTimeout(() => { try { r.start(); } catch (e) { err = 'start'; finish(); } }, 350);
   });
 }
+const esc = s => String(s).replace(/[&<>"]/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[ch]);
 const NUM_WORDS = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve'];
 function heardWords(text, targets) {
   // dictation may write "7:00" or "7 o’clock" for "seven o'clock"
@@ -1079,20 +1106,29 @@ function speakPanel(target, opts = {}) {
       }
       const mic = $('#mic');
       if (mic) mic.addEventListener('click', async () => {
-        mic.classList.add('listening'); $('#msg').textContent = '我在聽…';
-        const heard = await listen();
-        if (heard === null) { render(); return; }
-        tries++;
-        let hit = heardWords(heard, target);
-        // in the final quiz a face can fit more than one word (happy / great), so accept a close feeling too
-        if (opts.alts && !hit[hit.length - 1] && opts.alts.some(a => heardWords(heard, [a])[0])) hit[hit.length - 1] = true;
+        if (mic.classList.contains('listening')) return;
+        mic.classList.add('listening'); $('#msg').textContent = '我在聽…請說整句話';
         const offset = opts.offset || 0;
-        const states = [];
-        hit.forEach((h, i) => states[i + offset] = h ? 'on' : 'need');
-        for (let i = 0; i < offset; i++) states[i] = 'on';
-        setCars(states);
+        const check = said => {
+          const hit = heardWords(said, target);
+          // in the final quiz a face can fit more than one word (happy / great), so accept a close feeling too
+          if (opts.alts && !hit[hit.length - 1] && opts.alts.some(a => heardWords(said, [a])[0])) hit[hit.length - 1] = true;
+          const states = [];
+          for (let i = 0; i < offset; i++) states[i] = 'on';
+          hit.forEach((h, i) => states[i + offset] = h ? 'on' : '');
+          return { hit, states };
+        };
+        const heard = await listen(target, said => { $('#msg').textContent = '🎧 ' + said; setCars(check(said).states); });
+        if (heard === null) { render(srOK ? '' : '麥克風沒有打開。請到 iPad「設定 → Safari → 麥克風」選「允許」，或請家長幫忙按「我說好了」'); return; }
+        tries++;
+        if (!heard.text) {
+          render({ network: '網路不太穩，再按 🎤 試一次', 'no-speech': '沒有聽到聲音。按 🎤 之後，等按鈕在跳再開始說' }[heard.err] || '沒有聽到聲音。靠近一點，按 🎤 再說一次');
+          return;
+        }
+        const { hit, states } = check(heard.text);
+        setCars(states.map(s => s || 'need'));
         if (hit.every(Boolean)) { resolve(true); return; }
-        render(hit.some(Boolean) ? '還差一點點！閃閃的車廂還沒說到，再說一次整句' : '再試一次，說大聲一點點');
+        render(`${hit.some(Boolean) ? '還差一點點！閃閃的車廂還沒說到，再說一次整句' : '聽起來不太一樣，再說一次整句'}<br><small>我聽到：「${esc(heard.text)}」</small>`);
       });
     };
     render();
