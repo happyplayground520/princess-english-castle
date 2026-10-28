@@ -1081,7 +1081,6 @@ function topbar(back) {
     ${back ? `<button class="iconbtn" data-go="${back}" aria-label="back">⬅️ <span class="zh">${back === 'home' ? '城堡' : '地圖'}</span></button>` : ''}
     <span class="spacer"></span>
     <span class="chip" title="gems">💎 <span id="gems">${S.gems}</span></span>
-    <span class="chip" title="glass shoes">👠 ${S.shoes}</span>
   </div>`;
 }
 function wireNav() {
@@ -1258,7 +1257,7 @@ function chapter1() {
           const st = S.done[i] ? 'done' : i === open ? 'now' : i < open ? '' : 'locked';
           return `<button class="node ${st} ${s.type === 'boss' ? 'boss' : ''}" data-stage="${i}" ${i > open ? 'aria-disabled="true"' : ''}>
             ${i === open ? `<span class="me">${princess(faceNow(), 'sm')}</span>` : ''}
-            <span class="ic">${S.done[i] ? '👠' : i > open ? '🔒' : s.ic}</span>
+            <span class="ic">${S.done[i] ? '⭐' : i > open ? '🔒' : s.ic}</span>
             <span class="nm zh">${s.name}</span>
           </button>`;
         }).join('')}
@@ -1540,20 +1539,19 @@ async function finishStage(i, run) {
   if (first) S.shoes++;
   S.unlocked = Math.max(S.unlocked, i + 1);
   addGems(5); save();
-  celebrate(['👠', '👑', '💎', '✨']);
+  celebrate(['⭐', '👑', '💎', '✨']);
   app.innerHTML = `${topbar('chapter1')}
     <div class="card">
       <div class="scene">${princess('excited', 'lg')}
         <div style="display:flex;flex-direction:column;gap:14px;align-items:center">
           <h2 class="title-zh">過關！</h2>
-          <div class="say-zh zh">${first ? '你找到一隻玻璃鞋 👠' : '又多拿到寶石 💎'}</div>
-          <div class="shoe-row">${'👠'.repeat(Math.min(S.shoes, 13))}</div>
+          <div class="say-zh zh">${first ? '這一關完成了 ⭐ 拿到寶石 💎' : '又多拿到寶石 💎'}</div>
           <button class="btn big" data-go="chapter1"><span class="zh">回地圖</span></button>
         </div>
       </div>
     </div>`;
   wireNav();
-  await zhSay(first ? '過關！你找到一隻玻璃鞋！' : '過關！');
+  await zhSay(first ? '過關！拿到寶石了！' : '過關！');
 }
 
 /* ---------- chapters 2–8: content from the NCL textbooks ---------- */
@@ -1746,7 +1744,7 @@ function chapterPage(id) {
           const st = p.d[i] ? 'done' : i === open ? 'now' : i < open ? '' : 'locked';
           return `<button class="node ${st} ${s.type === 'boss' ? 'boss' : ''}" data-stage="${i}" ${i > open ? 'aria-disabled="true"' : ''}>
             ${i === open ? `<span class="me">${princess(faceNow(), 'sm')}</span>` : ''}
-            <span class="ic">${p.d[i] ? '👠' : i > open ? '🔒' : s.ic}</span>
+            <span class="ic">${p.d[i] ? '⭐' : i > open ? '🔒' : s.ic}</span>
             <span class="nm zh">${s.name}</span>
           </button>`;
         }).join('')}
@@ -1942,19 +1940,19 @@ async function gFinish(ch, idx, run) {
   if (first) S.shoes++;
   p.u = Math.max(p.u, idx + 1);
   addGems(5); save();
-  celebrate(['👠', '👑', '💎', '✨']);
+  celebrate(['⭐', '👑', '💎', '✨']);
   app.innerHTML = `${topbar(goCh(ch.id))}
     <div class="card">
       <div class="scene">${princess('excited', 'lg')}
         <div style="display:flex;flex-direction:column;gap:14px;align-items:center">
           <h2 class="title-zh">過關！</h2>
-          <div class="say-zh zh">${first ? '你找到一隻玻璃鞋 👠' : '又多拿到寶石 💎'}</div>
+          <div class="say-zh zh">${first ? '這一關完成了 ⭐ 拿到寶石 💎' : '又多拿到寶石 💎'}</div>
           <button class="btn big" data-go="${goCh(ch.id)}"><span class="zh">回地圖</span></button>
         </div>
       </div>
     </div>`;
   wireNav();
-  await zhSay(first ? '過關！你找到一隻玻璃鞋！' : '過關！');
+  await zhSay(first ? '過關！拿到寶石了！' : '過關！');
 }
 
 /* ---------- fit each game screen inside the tablet; the picture book and parent page are lists and scroll ---------- */
@@ -2073,13 +2071,19 @@ function wardrobe() {
       // locked: show it on the mirror so she can see how it looks
       tryOn = { key: wardrobeTab, id: it.id, zh: it.zh, need: it.need };
       wardrobe();
-      if (!isFace) zhSay(`試穿${it.zh}。集到${it.need}顆寶石，就能穿上喔！`);
+      praise();
       return;
     }
     tryOn = null;
     if (isFace) S.face = it.id; else S.look[wardrobeTab] = it.id;
-    save(); wardrobe(); celebrate(['💖', '✨', '💎']);
+    save(); wardrobe(); celebrate(['💖', '✨', '💎']); praise();
   }));
+}
+const PRAISE = ['So pretty!', 'You look beautiful!', 'How lovely!', 'Wow, so cute!', 'You look like a real princess!', 'Beautiful!', 'I love it!', 'So sparkly!'];
+let lastPraise = -1;
+function praise() {
+  let i; do { i = Math.floor(Math.random() * PRAISE.length); } while (i === lastPraise);
+  lastPraise = i; speak(PRAISE[i]);
 }
 
 /* ---------- princess photo: a picture of her to keep, share or copy ---------- */
@@ -2239,14 +2243,14 @@ function parent() {
     confirmRestore(got);
   });
   function confirmRestore(got) {
-    $('#restoreMsg').innerHTML = `<div class="row" style="justify-content:flex-start"><span class="zh">找到進度：💎 ${got.gems}、👠 ${got.shoes}。這台平板目前的進度會被換掉，確定嗎？</span>
+    $('#restoreMsg').innerHTML = `<div class="row" style="justify-content:flex-start"><span class="zh">找到進度：💎 ${got.gems}。這台平板目前的進度會被換掉，確定嗎？</span>
       <button class="btn" id="restoreYes"><span class="zh">確定換上</span></button><button class="btn soft" id="restoreNo"><span class="zh">不要</span></button></div>`;
     $('#restoreYes').addEventListener('click', () => { Object.assign(S, got); save(); parent(); toast('進度接上了！'); });
     $('#restoreNo').addEventListener('click', () => { $('#restoreMsg').innerHTML = ''; });
   }
   $('#unlock').addEventListener('click', () => { S.all = !S.all; save(); parent(); });
   $('#reset').addEventListener('click', () => {
-    $('#confirm').innerHTML = `<div class="row" style="justify-content:flex-start"><span class="zh">寶石、圖鑑、玻璃鞋都會清空，確定嗎？</span>
+    $('#confirm').innerHTML = `<div class="row" style="justify-content:flex-start"><span class="zh">寶石、圖鑑、過關紀錄都會清空，確定嗎？</span>
       <button class="btn" id="yes"><span class="zh">確定清空</span></button><button class="btn soft" id="no"><span class="zh">不要</span></button></div>`;
     $('#yes').addEventListener('click', () => { S = Object.assign(fresh(), { limitMin: S.limitMin, restMin: S.restMin, check: S.check }); save(); parent(); toast('已經從頭開始'); });
     $('#no').addEventListener('click', () => { $('#confirm').innerHTML = ''; });
